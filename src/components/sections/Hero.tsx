@@ -5,9 +5,9 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center"
       style={{
         backgroundImage:
-          "url('https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765892138399_1723637842674_2.webp')",
+          "url('https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765285774067_IMG20211128133714_11zon_(2).webp')",
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center 35%",
         backgroundAttachment: "fixed",
       }}
     >

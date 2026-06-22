@@ -12,15 +12,33 @@ import Testimonials from "@/components/sections/Testimonials";
 import CTABanner from "@/components/sections/CTABanner";
 import Blog from "@/components/sections/Blog";
 import FAQ from "@/components/sections/FAQ";
+import {
+  twoNightPackages,
+  weekendEscapes,
+  sunriseTreks,
+} from "@/data/packages";
+import { getPackagesWithOverrides } from "@/lib/treks/overrides";
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const [twoNights, weekend, sunrise] = await Promise.all([
+    getPackagesWithOverrides(twoNightPackages),
+    getPackagesWithOverrides(weekendEscapes),
+    getPackagesWithOverrides(sunriseTreks),
+  ]);
+
   return (
     <>
       <Header />
       <main>
         <Hero />
         <Stats />
-        <FeaturedCategories />
+        <FeaturedCategories
+          twoNightPackages={twoNights}
+          weekendEscapes={weekend}
+          sunriseTreks={sunrise}
+        />
         <WeekendTours />
         <HimalayanTreks />
         <Destinations />

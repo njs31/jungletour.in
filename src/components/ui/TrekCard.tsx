@@ -1,11 +1,17 @@
 import Image from "next/image";
+import Link from "next/link";
+import { getTrekDetailHref } from "@/data/treks";
 import type { TrekCard as TrekCardType } from "@/types";
 
 interface TrekCardProps {
   trek: TrekCardType | import("@/types").TourCard;
+  href?: string;
 }
 
-export default function TrekCard({ trek }: TrekCardProps) {
+export default function TrekCard({ trek, href }: TrekCardProps) {
+  const detailHref =
+    href ?? ("category" in trek ? getTrekDetailHref(trek.id) : undefined);
+
   return (
     <div className="group rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -41,9 +47,18 @@ export default function TrekCard({ trek }: TrekCardProps) {
               {trek.price}/person
             </p>
           </div>
-          <button className="text-xs font-semibold text-orange-600 border border-orange-500 rounded-full px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-colors duration-200">
-            View Details
-          </button>
+          {detailHref ? (
+            <Link
+              href={detailHref}
+              className="text-xs font-semibold text-orange-600 border border-orange-500 rounded-full px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-colors duration-200"
+            >
+              View Details
+            </Link>
+          ) : (
+            <button className="text-xs font-semibold text-orange-600 border border-orange-500 rounded-full px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-colors duration-200">
+              View Details
+            </button>
+          )}
         </div>
       </div>
     </div>

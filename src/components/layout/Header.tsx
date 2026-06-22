@@ -5,12 +5,9 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Packages", href: "#packages" },
-  { label: "Tours", href: "#tours" },
-  { label: "Himalayan", href: "#himalayan" },
-  { label: "Destinations", href: "#destinations" },
-  { label: "About", href: "#why-us" },
+  { label: "2 Nights Packages", href: "#2nights-packages" },
+  { label: "Weekend Escapes", href: "#weekend-escapes" },
+  { label: "Sunrise Treks", href: "#sunrise-treks" },
 ];
 
 export default function Header() {
