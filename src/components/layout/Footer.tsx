@@ -15,14 +15,14 @@ export default function Footer() {
           <div>
             <a href="#home" className="flex items-center gap-2 mb-4">
               <Image
-                src="/home/bplogoa.jpeg"
-                alt="Backpackers United"
+                src="/logo.png"
+                alt="Jungle Tours & Treks"
                 width={40}
                 height={40}
                 className="rounded-full object-cover"
               />
               <span className="font-bold text-white text-base">
-                BACKPACKERS <span className="text-orange-400">United</span>
+                JUNGLE <span className="text-orange-400">Tours & Treks</span>
               </span>
             </a>
             <p className="text-sm text-gray-400 leading-relaxed mb-5">
@@ -119,10 +119,10 @@ export default function Footer() {
                   Email
                 </p>
                 <a
-                  href="mailto:info@backpackersunited.in"
+                  href="mailto:info@jungletoursandtreks.in"
                   className="text-gray-300 hover:text-orange-400 transition-colors"
                 >
-                  info@backpackersunited.in
+                  info@jungletoursandtreks.in
                 </a>
               </li>
               <li>
@@ -143,7 +143,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-500">
-          © 2026 Backpackers United. All rights reserved.
+          © 2026 Jungle Tours & Treks. All rights reserved.
         </div>
       </div>
     </footer>

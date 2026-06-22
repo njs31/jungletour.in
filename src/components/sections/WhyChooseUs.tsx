@@ -29,7 +29,7 @@ export default function WhyChooseUs() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <SectionHeader
-            eyebrow="Why Backpackers United"
+            eyebrow="Why Jungle Tours & Treks"
             title="Built for the Trail"
             subtitle="Seven years of leading treks in the Western Ghats and beyond. We are not a marketplace — we are the team on the ground with you."
           />

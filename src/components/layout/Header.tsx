@@ -23,14 +23,15 @@ export default function Header() {
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2 flex-shrink-0">
             <Image
-              src="/home/bplogoa.jpeg"
-              alt="Backpackers United"
-              width={36}
-              height={36}
+              src="/logo.png"
+              alt="Jungle Tours & Treks"
+              width={40}
+              height={40}
               className="rounded-full object-cover"
+              priority
             />
             <span className="font-bold text-gray-900 text-sm sm:text-base">
-              BACKPACKERS <span className="text-orange-500">United</span>
+              JUNGLE <span className="text-orange-500">Tours & Treks</span>
             </span>
           </a>
 

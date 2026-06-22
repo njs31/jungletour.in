@@ -17,7 +17,7 @@ export const testimonials: Testimonial[] = [
     trek: "Kumara Parvatha Trek",
     rating: 5,
     quote:
-      "Went on the Kumara Parvatha trek with my college group. The sunrise from the peak was unreal. BU handled everything perfectly from transport to meals.",
+      "Went on the Kumara Parvatha trek with my college group. The sunrise from the peak was unreal. Jungle Tours & Treks handled everything perfectly from transport to meals.",
   },
   {
     id: "gowri",
@@ -35,7 +35,7 @@ export const testimonials: Testimonial[] = [
     trek: "Netravati Peak Trek",
     rating: 5,
     quote:
-      "What sets BU apart is their attention to detail. The campsite was clean, food was amazing, and the Leave No Trace philosophy is real, not just marketing.",
+      "What sets Jungle Tours & Treks apart is their attention to detail. The campsite was clean, food was amazing, and the Leave No Trace philosophy is real, not just marketing.",
   },
   {
     id: "priya",
@@ -44,7 +44,7 @@ export const testimonials: Testimonial[] = [
     trek: "Gokarna Beach Trek",
     rating: 5,
     quote:
-      "Third trek with Backpackers United and they keep raising the bar. The Gokarna coastal trail was therapeutic. Worth every rupee spent.",
+      "Third trek with Jungle Tours & Treks and they keep raising the bar. The Gokarna coastal trail was therapeutic. Worth every rupee spent.",
   },
   {
     id: "aditya",
