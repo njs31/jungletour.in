@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import Image from "next/image";
+import LoadingImage from "@/components/ui/LoadingImage";
 
 const navLinks = [
   { label: "2 Nights Packages", href: "#2nights-packages" },
@@ -18,19 +19,29 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-2 flex-shrink-0">
-            <Image
+          <Link
+            href="/#home"
+            className="flex items-center gap-2 flex-shrink-0"
+            onClick={(e) => {
+              if (window.location.pathname !== "/") return;
+              e.preventDefault();
+              document.getElementById("home")?.scrollIntoView({ behavior: "smooth" });
+              window.history.replaceState(null, "", "/#home");
+            }}
+          >
+            <LoadingImage
               src="/logo.png"
               alt="Jungle Tours & Treks"
               width={40}
               height={40}
               className="rounded-full object-cover"
               priority
+              showLabel={false}
             />
             <span className="font-bold text-gray-900 text-sm sm:text-base">
               JUNGLE <span className="text-orange-500">Tours & Treks</span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-7">

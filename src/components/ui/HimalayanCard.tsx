@@ -1,10 +1,14 @@
-import Image from "next/image";
+import LoadingImage from "@/components/ui/LoadingImage";
+import Link from "next/link";
+import { isExternalHref, resolveTripHref } from "@/lib/trips/links";
 import type { HimalayanTrek } from "@/types";
 
 export default function HimalayanCard({ trek }: { trek: HimalayanTrek }) {
-  return (
+  const href = resolveTripHref(trek.id, trek.title);
+
+  const card = (
     <div className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 aspect-[3/4]">
-      <Image
+      <LoadingImage
         src={trek.image}
         alt={trek.title}
         fill
@@ -19,18 +23,34 @@ export default function HimalayanCard({ trek }: { trek: HimalayanTrek }) {
           </span>
           <span className="text-xs text-gray-300">{trek.location}</span>
         </div>
-        <h3 className="font-bold text-base leading-tight">{trek.title}</h3>
+        <h3 className="font-bold text-base leading-tight group-hover:text-orange-300 transition-colors">
+          {trek.title}
+        </h3>
         <div className="flex gap-3 text-xs text-gray-300 mt-1">
           <span>⏱ {trek.duration}</span>
           <span>⛰ {trek.elevation}</span>
         </div>
         <div className="flex items-center justify-between mt-3">
           <p className="font-bold text-orange-400">{trek.price}/person</p>
-          <button className="text-xs font-semibold bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full px-3 py-1 transition-colors">
+          <span className="text-xs font-semibold bg-white/20 group-hover:bg-white/30 backdrop-blur-sm rounded-full px-3 py-1 transition-colors">
             View Details
-          </button>
+          </span>
         </div>
       </div>
     </div>
+  );
+
+  if (isExternalHref(href)) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className="block">
+        {card}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className="block">
+      {card}
+    </Link>
   );
 }

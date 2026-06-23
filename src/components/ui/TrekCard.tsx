@@ -1,6 +1,7 @@
-import Image from "next/image";
+import LoadingImage from "@/components/ui/LoadingImage";
 import Link from "next/link";
 import { getTrekDetailHref } from "@/data/treks";
+import { isExternalHref, resolveTripHref } from "@/lib/trips/links";
 import type { TrekCard as TrekCardType } from "@/types";
 
 interface TrekCardProps {
@@ -10,12 +11,15 @@ interface TrekCardProps {
 
 export default function TrekCard({ trek, href }: TrekCardProps) {
   const detailHref =
-    href ?? ("category" in trek ? getTrekDetailHref(trek.id) : undefined);
+    href ??
+    ("category" in trek
+      ? getTrekDetailHref(trek.id)
+      : resolveTripHref(trek.id, trek.title));
 
-  return (
-    <div className="group rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+  const card = (
+    <div className="group rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
+        <LoadingImage
           src={trek.image}
           alt={trek.title}
           fill
@@ -31,7 +35,7 @@ export default function TrekCard({ trek, href }: TrekCardProps) {
         <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">
           {trek.location}
         </p>
-        <h3 className="font-semibold text-gray-900 mt-1 text-sm leading-snug line-clamp-2">
+        <h3 className="font-semibold text-gray-900 mt-1 text-sm leading-snug line-clamp-2 group-hover:text-orange-600 transition-colors">
           {trek.title}
         </h3>
         <div className="flex gap-3 text-xs text-gray-500 mt-2">
@@ -47,20 +51,32 @@ export default function TrekCard({ trek, href }: TrekCardProps) {
               {trek.price}/person
             </p>
           </div>
-          {detailHref ? (
-            <Link
-              href={detailHref}
-              className="text-xs font-semibold text-orange-600 border border-orange-500 rounded-full px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-colors duration-200"
-            >
-              View Details
-            </Link>
-          ) : (
-            <button className="text-xs font-semibold text-orange-600 border border-orange-500 rounded-full px-4 py-1.5 hover:bg-orange-500 hover:text-white transition-colors duration-200">
-              View Details
-            </button>
-          )}
+          <span className="text-xs font-semibold text-orange-600 border border-orange-500 rounded-full px-4 py-1.5 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-200">
+            View Details
+          </span>
         </div>
       </div>
     </div>
+  );
+
+  if (!detailHref) return card;
+
+  if (isExternalHref(detailHref)) {
+    return (
+      <a
+        href={detailHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block h-full"
+      >
+        {card}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={detailHref} className="block h-full">
+      {card}
+    </Link>
   );
 }

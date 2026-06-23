@@ -1,4 +1,5 @@
-import Image from "next/image";
+import Link from "next/link";
+import LoadingImage from "@/components/ui/LoadingImage";
 
 const tourLinks = [
   "Thailand", "Andaman & Nicobar", "Goa", "Kashmir", "Kerala",
@@ -13,18 +14,19 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Column 1 – Brand */}
           <div>
-            <a href="#home" className="flex items-center gap-2 mb-4">
-              <Image
+            <Link href="/#home" className="flex items-center gap-2 mb-4">
+              <LoadingImage
                 src="/logo.png"
                 alt="Jungle Tours & Treks"
                 width={40}
                 height={40}
                 className="rounded-full object-cover"
+                showLabel={false}
               />
               <span className="font-bold text-white text-base">
                 JUNGLE <span className="text-orange-400">Tours & Treks</span>
               </span>
-            </a>
+            </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-5">
               Expert-led treks and weekend tours from Bangalore. Curated for
               every kind of adventurer since 2017.

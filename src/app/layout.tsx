@@ -3,6 +3,7 @@ import { Inter, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import LeadCaptureModal from "@/components/LeadCaptureModal";
+import HashScroll from "@/components/layout/HashScroll";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn(inter.className, "font-sans", geist.variable)}>
       <body className="antialiased">
+        <HashScroll />
         {children}
         <LeadCaptureModal />
       </body>

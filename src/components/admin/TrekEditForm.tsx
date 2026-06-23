@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import LoadingOverlay from "@/components/ui/LoadingOverlay";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { TrekTripDate } from "@/types/trek-override";
@@ -94,7 +95,9 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <>
+      {saving && <LoadingOverlay label="Loading" />}
+      <form onSubmit={handleSubmit} className="space-y-8">
       <div className="grid sm:grid-cols-2 gap-4">
         <Field label="Price" value={form.price} onChange={(v) => setForm({ ...form, price: v })} />
         <Field label="Duration" value={form.duration} onChange={(v) => setForm({ ...form, duration: v })} />
@@ -217,7 +220,7 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
           disabled={saving}
           className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2.5 rounded-full disabled:opacity-60"
         >
-          {saving ? "Saving..." : "Save changes"}
+          {saving ? "Loading" : "Save changes"}
         </button>
         <Link
           href="/admin"
@@ -235,6 +238,7 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
         )}
       </div>
     </form>
+    </>
   );
 }
 

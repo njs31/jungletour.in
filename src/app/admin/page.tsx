@@ -3,6 +3,7 @@ import Link from "next/link";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { listAdminTreks } from "@/lib/treks/overrides";
 import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
+import AdminBookingsSection from "@/components/admin/AdminBookingsSection";
 
 const sectionOrder = [
   { key: "trek", label: "Package treks" },
@@ -36,6 +37,7 @@ export default async function AdminDashboardPage() {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+        <AdminBookingsSection />
         {sectionOrder.map((section) => {
           const sectionTrips = trips.filter((trip) => trip.kind === section.key);
           if (sectionTrips.length === 0) return null;

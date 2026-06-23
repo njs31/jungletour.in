@@ -2,7 +2,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center"
+      className="relative min-h-screen flex items-center justify-center scroll-mt-16"
       style={{
         backgroundImage:
           "url('https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765285774067_IMG20211128133714_11zon_(2).webp')",

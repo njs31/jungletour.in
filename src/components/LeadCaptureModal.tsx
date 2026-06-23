@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import LoadingImage from "@/components/ui/LoadingImage";
+import LoadingOverlay from "@/components/ui/LoadingOverlay";
 import { X } from "lucide-react";
 
 const STORAGE_KEY = "jtt-lead-modal-dismissed";
@@ -88,6 +89,7 @@ export default function LeadCaptureModal() {
       aria-modal="true"
       aria-labelledby="lead-modal-title"
     >
+      {isSubmitting && <LoadingOverlay label="Loading" />}
       <button
         type="button"
         className="absolute inset-0 bg-black/55 backdrop-blur-[2px]"
@@ -109,7 +111,7 @@ export default function LeadCaptureModal() {
         <div className="hidden w-[38%] shrink-0 flex-col gap-2 bg-gray-100 p-2 sm:flex">
           {galleryImages.map((image) => (
             <div key={image.src} className="relative min-h-0 flex-1 overflow-hidden rounded-xl">
-              <Image
+              <LoadingImage
                 src={image.src}
                 alt={image.alt}
                 fill
@@ -125,12 +127,13 @@ export default function LeadCaptureModal() {
           <div className="grid grid-cols-3 gap-1.5 p-2 sm:hidden">
             {galleryImages.map((image) => (
               <div key={image.src} className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                <Image
+                <LoadingImage
                   src={image.src}
                   alt={image.alt}
                   fill
                   className="object-cover"
                   sizes="33vw"
+                  showLabel={false}
                 />
               </div>
             ))}
@@ -240,7 +243,7 @@ export default function LeadCaptureModal() {
                 disabled={isSubmitting}
                 className="mt-2 w-full rounded-full bg-[#0d7a72] py-3 text-sm font-semibold text-white transition-colors hover:bg-[#0b6b64] disabled:cursor-not-allowed disabled:opacity-70"
               >
-                {isSubmitting ? "Sending..." : "Send"}
+                {isSubmitting ? "Loading" : "Send"}
               </button>
             </form>
           )}

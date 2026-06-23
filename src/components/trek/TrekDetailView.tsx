@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import LoadingImage from "@/components/ui/LoadingImage";
 import Link from "next/link";
 import {
   ChevronDown,
@@ -12,6 +12,7 @@ import {
   Timer,
   Users,
 } from "lucide-react";
+import BookNowModal from "@/components/BookNowModal";
 import type { TrekDetail } from "@/types/trek-detail";
 
 const sectionNav = [
@@ -34,6 +35,8 @@ interface TrekDetailViewProps {
 export default function TrekDetailView({ trek }: TrekDetailViewProps) {
   const [activeImage, setActiveImage] = useState(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const tripId = trek.slug.replace(/-trek$/, "");
 
   return (
     <div className="bg-gray-50">
@@ -67,13 +70,13 @@ export default function TrekDetailView({ trek }: TrekDetailViewProps) {
               </div>
 
               <div className="lg:hidden mb-6 rounded-2xl border border-gray-200 bg-gray-50 p-4">
-                <PriceCard trek={trek} />
+                <PriceCard trek={trek} onBookNow={() => setBookingOpen(true)} />
               </div>
             </div>
 
             <div className="space-y-3">
               <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
-                <Image
+                <LoadingImage
                   src={trek.images[activeImage].src}
                   alt={trek.images[activeImage].alt}
                   fill
@@ -94,12 +97,13 @@ export default function TrekDetailView({ trek }: TrekDetailViewProps) {
                         : "border-transparent"
                     }`}
                   >
-                    <Image
+                    <LoadingImage
                       src={image.src}
                       alt={image.alt}
                       fill
                       className="object-cover"
                       sizes="120px"
+                      showLabel={false}
                     />
                   </button>
                 ))}
@@ -445,7 +449,7 @@ export default function TrekDetailView({ trek }: TrekDetailViewProps) {
           {/* Sticky sidebar */}
           <aside className="hidden lg:block">
             <div className="sticky top-36">
-              <PriceCard trek={trek} />
+              <PriceCard trek={trek} onBookNow={() => setBookingOpen(true)} />
               <Link
                 href="/#2nights-packages"
                 className="mt-4 block text-center text-sm text-orange-600 hover:text-orange-700 font-medium"
@@ -468,15 +472,22 @@ export default function TrekDetailView({ trek }: TrekDetailViewProps) {
             <span className="text-xs font-normal text-gray-500"> / person</span>
           </p>
         </div>
-        <a
-          href="https://wa.me/918310822183"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => setBookingOpen(true)}
           className="bg-orange-500 text-white font-semibold px-6 py-2.5 rounded-full text-sm hover:bg-orange-600 transition-colors"
         >
           Book Now
-        </a>
+        </button>
       </div>
+
+      <BookNowModal
+        isOpen={bookingOpen}
+        onClose={() => setBookingOpen(false)}
+        tripTitle={trek.title}
+        tripSlug={trek.slug}
+        tripId={tripId}
+      />
     </div>
   );
 }
@@ -556,7 +567,13 @@ function formatDepartureDate(date: string) {
   return date;
 }
 
-function PriceCard({ trek }: { trek: TrekDetail }) {
+function PriceCard({
+  trek,
+  onBookNow,
+}: {
+  trek: TrekDetail;
+  onBookNow: () => void;
+}) {
   const openDepartures = trek.departures.filter(
     (departure) => departure.status.toLowerCase() !== "cancelled"
   );
@@ -602,14 +619,13 @@ function PriceCard({ trek }: { trek: TrekDetail }) {
         </div>
       )}
       <div className="mt-5 space-y-2">
-        <a
-          href="https://wa.me/918310822183"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={onBookNow}
           className="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-full transition-colors text-sm"
         >
           Book Now
-        </a>
+        </button>
         <a
           href="tel:+918310822183"
           className="block w-full text-center border border-orange-500 text-orange-600 font-semibold py-3 rounded-full hover:bg-orange-50 transition-colors text-sm"

@@ -1,10 +1,12 @@
-import Image from "next/image";
+import LoadingImage from "@/components/ui/LoadingImage";
+import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import { getBlogPostHref } from "@/lib/trips/links";
 import { blogPosts } from "@/data/blog";
 
 export default function Blog() {
   return (
-    <section className="py-16 md:py-24 bg-gray-50">
+    <section id="blog" className="scroll-mt-20 py-16 md:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <SectionHeader
@@ -16,12 +18,13 @@ export default function Blog() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {blogPosts.map((post) => (
-            <div
+            <Link
               key={post.id}
-              className="group rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+              href={getBlogPostHref(post.id)}
+              className="group block rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300"
             >
               <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
+                <LoadingImage
                   src={post.image}
                   alt={post.title}
                   fill
@@ -43,7 +46,7 @@ export default function Blog() {
                   Read more <span>→</span>
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
