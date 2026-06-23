@@ -1,14 +1,23 @@
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-import type { TrekCard } from "@/types";
+import type { TrekCard, TourCard, HimalayanTrek } from "@/types";
 import type { TrekDetail } from "@/types/trek-detail";
 import type { TrekOverride, TrekOverrideInput } from "@/types/trek-override";
 import {
-  trekDetails,
-  trekDetailsBySlug,
-  trekDetailIds,
   getTrekBySlug,
 } from "@/data/treks/registry";
+import {
+  getAdminTripById,
+  getAllAdminTrips,
+  type AdminTripCatalogEntry,
+} from "@/lib/trips/catalog";
+import {
+  readFileOverrides,
+  writeFileOverride,
+  mergeOverrides,
+} from "@/lib/treks/override-store";
+import { weekendTours } from "@/data/tours";
+import { himalayanTreks } from "@/data/himalayan";
 
 function parseOverrideRow(row: Record<string, unknown>): TrekOverride {
   return {
@@ -33,20 +42,41 @@ function parseOverrideRow(row: Record<string, unknown>): TrekOverride {
   };
 }
 
+function isTripActive(override: TrekOverride | null | undefined) {
+  return override?.is_active !== false;
+}
+
+function departuresFromOverride(
+  trek: TrekDetail,
+  override: TrekOverride | null
+): TrekDetail["departures"] {
+  if (!override?.next_trip_dates?.length) return trek.departures;
+
+  const priceLabel = `${override.price || trek.price} / person`;
+  return override.next_trip_dates.map((trip) => ({
+    date: trip.date,
+    status: trip.status,
+    price: priceLabel,
+  }));
+}
+
 export async function fetchAllTrekOverrides(): Promise<
   Record<string, TrekOverride>
 > {
+  const fileOverrides = await readFileOverrides();
+
   try {
     const supabase = await createClient();
     const { data, error } = await supabase.from("trek_overrides").select("*");
 
-    if (error || !data) return {};
+    if (error || !data) return fileOverrides;
 
-    return Object.fromEntries(
+    const dbOverrides = Object.fromEntries(
       data.map((row) => [String(row.trek_id), parseOverrideRow(row)])
     );
+    return mergeOverrides(dbOverrides, fileOverrides);
   } catch {
-    return {};
+    return fileOverrides;
   }
 }
 
@@ -78,7 +108,7 @@ function applyOverrideToTrek(
       override.highlights && override.highlights.length > 0
         ? override.highlights
         : trek.highlights,
-    departures: [],
+    departures: departuresFromOverride(trek, override),
   };
 }
 
@@ -101,75 +131,93 @@ function applyOverrideToCard(
   };
 }
 
+function applyOverrideToTour(
+  tour: TourCard,
+  override: TrekOverride | null
+): TourCard {
+  if (!override) return tour;
+
+  return {
+    ...tour,
+    title: override.title || tour.title,
+    price: override.price || tour.price,
+    duration: override.duration || tour.duration,
+  };
+}
+
+function applyOverrideToHimalayan(
+  trek: HimalayanTrek,
+  override: TrekOverride | null
+): HimalayanTrek {
+  if (!override) return trek;
+
+  return {
+    ...trek,
+    title: override.title || trek.title,
+    price: override.price || trek.price,
+    duration: override.duration || trek.duration,
+    difficulty: override.difficulty || trek.difficulty,
+    elevation: override.altitude || trek.elevation,
+  };
+}
+
 export async function getTrekBySlugWithOverrides(slug: string) {
   const base = getTrekBySlug(slug);
   if (!base) return null;
 
   const trekId = slug.replace(/-trek$/, "");
   const override = await fetchTrekOverride(trekId);
-  return applyOverrideToTrek(base, override);
-}
+  if (!isTripActive(override)) return null;
 
-export async function getAllTreksWithOverrides() {
-  const overrides = await fetchAllTrekOverrides();
-  return trekDetails.map((trek) => {
-    const trekId = trek.slug.replace(/-trek$/, "");
-    return applyOverrideToTrek(trek, overrides[trekId] ?? null);
-  });
+  return applyOverrideToTrek(base, override);
 }
 
 export async function getPackagesWithOverrides(packages: TrekCard[]) {
   const overrides = await fetchAllTrekOverrides();
-  return packages.map((pkg) =>
-    applyOverrideToCard(pkg, overrides[pkg.id] ?? null)
-  );
+  return packages
+    .filter((pkg) => isTripActive(overrides[pkg.id]))
+    .map((pkg) => applyOverrideToCard(pkg, overrides[pkg.id] ?? null));
 }
 
-export async function listAdminTreks() {
+export async function getToursWithOverrides() {
   const overrides = await fetchAllTrekOverrides();
-
-  return trekDetailIds.map((id) => {
-    const slug = `${id}-trek`;
-    const base = trekDetailsBySlug[slug];
-    const override = overrides[id] ?? null;
-
-    return {
-      id,
-      slug,
-      title: override?.title || base?.title || id,
-      price: override?.price || base?.price || "",
-      duration: override?.duration || base?.duration || "",
-      nextTripDates: override?.next_trip_dates ?? [],
-      isActive: override?.is_active ?? true,
-      updatedAt: override?.updated_at ?? null,
-    };
-  });
+  return weekendTours
+    .filter((tour) => isTripActive(overrides[tour.id]))
+    .map((tour) => applyOverrideToTour(tour, overrides[tour.id] ?? null));
 }
 
-export async function upsertTrekOverride(
+export async function getHimalayanWithOverrides() {
+  const overrides = await fetchAllTrekOverrides();
+  return himalayanTreks
+    .filter((trek) => isTripActive(overrides[trek.id]))
+    .map((trek) => applyOverrideToHimalayan(trek, overrides[trek.id] ?? null));
+}
+
+function buildUpsertPayload(
   trekId: string,
+  base: AdminTripCatalogEntry,
   input: TrekOverrideInput
 ) {
-  const admin = createAdminClient();
-  const base = trekDetailsBySlug[`${trekId}-trek`];
-
-  const payload = {
+  return {
     trek_id: trekId,
-    price: input.price ?? base?.price ?? null,
-    original_price: input.original_price ?? base?.originalPrice ?? null,
-    discount_label: input.discount_label ?? base?.discountLabel ?? null,
-    title: input.title ?? base?.title ?? null,
-    meta_description: input.meta_description ?? base?.metaDescription ?? null,
-    duration: input.duration ?? base?.duration ?? null,
-    difficulty: input.difficulty ?? base?.difficulty ?? null,
-    altitude: input.altitude ?? base?.altitude ?? null,
-    distance: input.distance ?? base?.distance ?? null,
+    price: input.price ?? base.price ?? null,
+    original_price: input.original_price ?? base.originalPrice ?? null,
+    discount_label: input.discount_label ?? base.discountLabel ?? null,
+    title: input.title ?? base.title ?? null,
+    meta_description: input.meta_description ?? base.metaDescription ?? null,
+    duration: input.duration ?? base.duration ?? null,
+    difficulty: input.difficulty ?? base.difficulty ?? null,
+    altitude: input.altitude ?? base.altitude ?? null,
+    distance: input.distance ?? base.distance ?? null,
     next_trip_dates: input.next_trip_dates ?? [],
-    highlights: input.highlights ?? base?.highlights ?? null,
+    highlights: input.highlights ?? base.highlights ?? null,
     is_active: input.is_active ?? true,
     updated_at: new Date().toISOString(),
   };
+}
 
+async function upsertViaServiceRole(payload: ReturnType<typeof buildUpsertPayload>) {
+  const admin = createAdminClient();
   const { data, error } = await admin
     .from("trek_overrides")
     .upsert(payload, { onConflict: "trek_id" })
@@ -180,29 +228,119 @@ export async function upsertTrekOverride(
   return parseOverrideRow(data);
 }
 
+async function upsertViaRpc(payload: ReturnType<typeof buildUpsertPayload>) {
+  const secret = process.env.ADMIN_SESSION_SECRET;
+  if (!secret) {
+    throw new Error(
+      "ADMIN_SESSION_SECRET is required for admin saves. Add it to .env.local."
+    );
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("upsert_trek_override_admin", {
+    p_payload: payload,
+    p_secret: secret,
+  });
+
+  if (error) throw error;
+  return parseOverrideRow(data as Record<string, unknown>);
+}
+
+function payloadToOverride(
+  trekId: string,
+  payload: ReturnType<typeof buildUpsertPayload>
+): TrekOverride {
+  return {
+    trek_id: trekId,
+    price: payload.price,
+    original_price: payload.original_price,
+    discount_label: payload.discount_label,
+    title: payload.title,
+    meta_description: payload.meta_description,
+    duration: payload.duration,
+    difficulty: payload.difficulty,
+    altitude: payload.altitude,
+    distance: payload.distance,
+    next_trip_dates: payload.next_trip_dates,
+    highlights: payload.highlights,
+    is_active: payload.is_active,
+    updated_at: payload.updated_at,
+  };
+}
+
+export async function upsertTrekOverride(
+  trekId: string,
+  input: TrekOverrideInput
+) {
+  const base = getAdminTripById(trekId);
+  if (!base) {
+    throw new Error("Trip not found");
+  }
+
+  const payload = buildUpsertPayload(trekId, base, input);
+  const fileFallback = () =>
+    writeFileOverride(trekId, payloadToOverride(trekId, payload));
+
+  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      return await upsertViaServiceRole(payload);
+    } catch {
+      // Fall through to RPC or local file store.
+    }
+  }
+
+  try {
+    return await upsertViaRpc(payload);
+  } catch {
+    return fileFallback();
+  }
+}
+
+export async function listAdminTreks() {
+  const overrides = await fetchAllTrekOverrides();
+
+  return getAllAdminTrips().map((trip) => {
+    const override = overrides[trip.id] ?? null;
+
+    return {
+      id: trip.id,
+      slug: trip.slug,
+      kind: trip.kind,
+      kindLabel: trip.kindLabel,
+      title: override?.title || trip.title,
+      price: override?.price || trip.price,
+      duration: override?.duration || trip.duration,
+      nextTripDates: override?.next_trip_dates ?? [],
+      isActive: override?.is_active ?? true,
+      updatedAt: override?.updated_at ?? null,
+    };
+  });
+}
+
 export async function getAdminTrekFormData(trekId: string) {
-  const slug = `${trekId}-trek`;
-  const base = trekDetailsBySlug[slug];
+  const base = getAdminTripById(trekId);
   if (!base) return null;
 
   const override = await fetchTrekOverride(trekId);
 
   return {
     trekId,
-    slug,
+    kind: base.kind,
+    slug: base.slug,
     title: override?.title || base.title,
-    metaDescription: override?.meta_description || base.metaDescription,
+    metaDescription: override?.meta_description || base.metaDescription || "",
     price: override?.price || base.price,
     originalPrice: override?.original_price || base.originalPrice || "",
     discountLabel: override?.discount_label || base.discountLabel || "",
     duration: override?.duration || base.duration,
-    difficulty: override?.difficulty || base.difficulty,
-    altitude: override?.altitude || base.altitude,
-    distance: override?.distance || base.distance,
+    difficulty: override?.difficulty || base.difficulty || "",
+    altitude: override?.altitude || base.altitude || "",
+    distance: override?.distance || base.distance || "",
     nextTripDates: override?.next_trip_dates ?? [],
-    highlights: override?.highlights?.length
-      ? override.highlights
-      : base.highlights,
+    highlights:
+      override?.highlights?.length
+        ? override.highlights
+        : base.highlights ?? [],
     isActive: override?.is_active ?? true,
   };
 }

@@ -83,3 +83,4 @@ service-account*.json
 
 # Optional local overrides
 *.local
+.data/

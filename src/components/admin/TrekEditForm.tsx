@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { TrekTripDate } from "@/types/trek-override";
+import type { AdminTripKind } from "@/lib/trips/catalog";
 
 interface TrekFormData {
   trekId: string;
-  slug: string;
+  kind: AdminTripKind;
+  slug?: string;
   title: string;
   metaDescription: string;
   price: string;
@@ -28,6 +30,7 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const isFullTrek = form.kind === "trek";
 
   function updateTripDate(index: number, field: keyof TrekTripDate, value: string) {
     setForm((prev) => ({
@@ -94,12 +97,22 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="grid sm:grid-cols-2 gap-4">
         <Field label="Price" value={form.price} onChange={(v) => setForm({ ...form, price: v })} />
-        <Field label="Original price" value={form.originalPrice} onChange={(v) => setForm({ ...form, originalPrice: v })} />
-        <Field label="Discount label" value={form.discountLabel} onChange={(v) => setForm({ ...form, discountLabel: v })} placeholder="20% OFF" />
         <Field label="Duration" value={form.duration} onChange={(v) => setForm({ ...form, duration: v })} />
-        <Field label="Difficulty" value={form.difficulty} onChange={(v) => setForm({ ...form, difficulty: v })} />
-        <Field label="Altitude" value={form.altitude} onChange={(v) => setForm({ ...form, altitude: v })} />
-        <Field label="Distance" value={form.distance} onChange={(v) => setForm({ ...form, distance: v })} />
+        {isFullTrek && (
+          <>
+            <Field label="Original price" value={form.originalPrice} onChange={(v) => setForm({ ...form, originalPrice: v })} />
+            <Field label="Discount label" value={form.discountLabel} onChange={(v) => setForm({ ...form, discountLabel: v })} placeholder="20% OFF" />
+            <Field label="Difficulty" value={form.difficulty} onChange={(v) => setForm({ ...form, difficulty: v })} />
+            <Field label="Altitude" value={form.altitude} onChange={(v) => setForm({ ...form, altitude: v })} />
+            <Field label="Distance" value={form.distance} onChange={(v) => setForm({ ...form, distance: v })} />
+          </>
+        )}
+        {!isFullTrek && form.kind === "himalayan" && (
+          <Field label="Difficulty" value={form.difficulty} onChange={(v) => setForm({ ...form, difficulty: v })} />
+        )}
+        {!isFullTrek && form.kind === "himalayan" && (
+          <Field label="Elevation" value={form.altitude} onChange={(v) => setForm({ ...form, altitude: v })} />
+        )}
       </div>
 
       <div>
@@ -111,29 +124,33 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">Meta description</label>
-        <textarea
-          rows={3}
-          value={form.metaDescription}
-          onChange={(e) => setForm({ ...form, metaDescription: e.target.value })}
-          className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500"
-        />
-      </div>
+      {isFullTrek && (
+        <>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Meta description</label>
+            <textarea
+              rows={3}
+              value={form.metaDescription}
+              onChange={(e) => setForm({ ...form, metaDescription: e.target.value })}
+              className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500"
+            />
+          </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
-          Highlights (one per line)
-        </label>
-        <textarea
-          rows={6}
-          value={form.highlights.join("\n")}
-          onChange={(e) =>
-            setForm({ ...form, highlights: e.target.value.split("\n") })
-          }
-          className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500"
-        />
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Highlights (one per line)
+            </label>
+            <textarea
+              rows={6}
+              value={form.highlights.join("\n")}
+              onChange={(e) =>
+                setForm({ ...form, highlights: e.target.value.split("\n") })
+              }
+              className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500"
+            />
+          </div>
+        </>
+      )}
 
       <div>
         <div className="flex items-center justify-between mb-3">
@@ -155,9 +172,8 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
           {form.nextTripDates.map((trip, index) => (
             <div key={index} className="flex gap-3 items-center">
               <input
-                type="text"
-                placeholder="Fri, 26 Jun, 2026"
-                value={trip.date}
+                type="date"
+                value={/^\d{4}-\d{2}-\d{2}$/.test(trip.date) ? trip.date : ""}
                 onChange={(e) => updateTripDate(index, "date", e.target.value)}
                 className="flex-1 rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500"
               />
@@ -189,13 +205,13 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
           onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
           className="size-4 rounded border-gray-300 text-orange-500"
         />
-        Trek is active on the website
+        Trip is active on the website
       </label>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
       {message && <p className="text-sm text-green-600">{message}</p>}
 
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         <button
           type="submit"
           disabled={saving}
@@ -209,12 +225,14 @@ export default function TrekEditForm({ initial }: { initial: TrekFormData }) {
         >
           Back
         </Link>
-        <Link
-          href={`/trek/${form.slug}`}
-          className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-orange-600 hover:text-orange-700"
-        >
-          Preview page
-        </Link>
+        {form.slug && (
+          <Link
+            href={`/trek/${form.slug}`}
+            className="inline-flex items-center px-6 py-2.5 text-sm font-semibold text-orange-600 hover:text-orange-700"
+          >
+            Preview page
+          </Link>
+        )}
       </div>
     </form>
   );

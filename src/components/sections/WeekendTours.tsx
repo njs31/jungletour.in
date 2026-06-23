@@ -1,8 +1,10 @@
 import TrekCard from "@/components/ui/TrekCard";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { weekendTours } from "@/data/tours";
+import { getToursWithOverrides } from "@/lib/treks/overrides";
 
-export default function WeekendTours() {
+export default async function WeekendTours() {
+  const weekendTours = await getToursWithOverrides();
+
   return (
     <section id="tours" className="py-16 md:py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,8 +1,10 @@
 import HimalayanCard from "@/components/ui/HimalayanCard";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { himalayanTreks } from "@/data/himalayan";
+import { getHimalayanWithOverrides } from "@/lib/treks/overrides";
 
-export default function HimalayanTreks() {
+export default async function HimalayanTreks() {
+  const himalayanTreks = await getHimalayanWithOverrides();
+
   return (
     <section id="himalayan" className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

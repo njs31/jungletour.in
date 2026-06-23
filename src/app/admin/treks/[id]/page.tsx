@@ -23,7 +23,7 @@ export default async function AdminTrekEditPage({ params }: AdminTrekPageProps) 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-orange-500">
-              Edit trek
+              Edit trip
             </p>
             <h1 className="text-xl font-bold text-gray-900">{trek.title}</h1>
           </div>

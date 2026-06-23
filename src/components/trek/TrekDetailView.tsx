@@ -544,7 +544,23 @@ function ListCard({
   );
 }
 
+function formatDepartureDate(date: string) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    return new Date(`${date}T12:00:00`).toLocaleDateString("en-IN", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  }
+  return date;
+}
+
 function PriceCard({ trek }: { trek: TrekDetail }) {
+  const openDepartures = trek.departures.filter(
+    (departure) => departure.status.toLowerCase() !== "cancelled"
+  );
+
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
       {trek.originalPrice && (
@@ -558,6 +574,32 @@ function PriceCard({ trek }: { trek: TrekDetail }) {
         <span className="inline-block mt-2 text-xs font-bold text-green-700 bg-green-50 px-2 py-1 rounded-full">
           {trek.discountLabel}
         </span>
+      )}
+      {openDepartures.length > 0 && (
+        <div className="mt-4 border-t border-gray-100 pt-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-2">
+            Upcoming departures
+          </p>
+          <ul className="space-y-2">
+            {openDepartures.map((departure) => (
+              <li
+                key={`${departure.date}-${departure.status}`}
+                className="flex items-center justify-between gap-2 text-sm"
+              >
+                <span className="text-gray-700">{formatDepartureDate(departure.date)}</span>
+                <span
+                  className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                    departure.status.toLowerCase() === "full"
+                      ? "bg-gray-100 text-gray-600"
+                      : "bg-green-50 text-green-700"
+                  }`}
+                >
+                  {departure.status}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
       <div className="mt-5 space-y-2">
         <a
