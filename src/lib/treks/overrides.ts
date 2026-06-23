@@ -18,6 +18,11 @@ import {
 } from "@/lib/treks/override-store";
 import { weekendTours } from "@/data/tours";
 import { himalayanTreks } from "@/data/himalayan";
+import {
+  fetchAllImageOverrides,
+  getTripCoverImage,
+  getTripGalleryImages,
+} from "@/lib/images/overrides";
 
 function parseOverrideRow(row: Record<string, unknown>): TrekOverride {
   return {
@@ -89,23 +94,25 @@ export async function fetchTrekOverride(
 
 function applyOverrideToTrek(
   trek: TrekDetail,
-  override: TrekOverride | null
+  override: TrekOverride | null,
+  images?: TrekDetail["images"]
 ): TrekDetail {
-  if (!override) return trek;
+  if (!override && !images) return trek;
 
   return {
     ...trek,
-    title: override.title || trek.title,
-    metaDescription: override.meta_description || trek.metaDescription,
-    price: override.price || trek.price,
-    originalPrice: override.original_price ?? trek.originalPrice,
-    discountLabel: override.discount_label ?? trek.discountLabel,
-    duration: override.duration || trek.duration,
-    difficulty: override.difficulty || trek.difficulty,
-    altitude: override.altitude || trek.altitude,
-    distance: override.distance || trek.distance,
+    ...(images ? { images } : {}),
+    title: override?.title || trek.title,
+    metaDescription: override?.meta_description || trek.metaDescription,
+    price: override?.price || trek.price,
+    originalPrice: override?.original_price ?? trek.originalPrice,
+    discountLabel: override?.discount_label ?? trek.discountLabel,
+    duration: override?.duration || trek.duration,
+    difficulty: override?.difficulty || trek.difficulty,
+    altitude: override?.altitude || trek.altitude,
+    distance: override?.distance || trek.distance,
     highlights:
-      override.highlights && override.highlights.length > 0
+      override?.highlights && override.highlights.length > 0
         ? override.highlights
         : trek.highlights,
     departures: departuresFromOverride(trek, override),
@@ -114,50 +121,56 @@ function applyOverrideToTrek(
 
 function applyOverrideToCard(
   card: TrekCard,
-  override: TrekOverride | null
+  override: TrekOverride | null,
+  imageUrl?: string
 ): TrekCard {
-  if (!override) return card;
+  const nextCard = imageUrl ? { ...card, image: imageUrl } : card;
+  if (!override) return nextCard;
 
   return {
-    ...card,
-    title: override.title || card.title,
-    price: override.price || card.price,
-    duration: override.duration || card.duration,
+    ...nextCard,
+    title: override.title || nextCard.title,
+    price: override.price || nextCard.price,
+    duration: override.duration || nextCard.duration,
     elevation: override.altitude
-      ? card.elevation.includes("·")
-        ? `${override.altitude} · ${override.distance || card.elevation.split("·")[1]?.trim() || ""}`.trim()
+      ? nextCard.elevation.includes("·")
+        ? `${override.altitude} · ${override.distance || nextCard.elevation.split("·")[1]?.trim() || ""}`.trim()
         : override.altitude
-      : card.elevation,
+      : nextCard.elevation,
   };
 }
 
 function applyOverrideToTour(
   tour: TourCard,
-  override: TrekOverride | null
+  override: TrekOverride | null,
+  imageUrl?: string
 ): TourCard {
-  if (!override) return tour;
+  const nextTour = imageUrl ? { ...tour, image: imageUrl } : tour;
+  if (!override) return nextTour;
 
   return {
-    ...tour,
-    title: override.title || tour.title,
-    price: override.price || tour.price,
-    duration: override.duration || tour.duration,
+    ...nextTour,
+    title: override.title || nextTour.title,
+    price: override.price || nextTour.price,
+    duration: override.duration || nextTour.duration,
   };
 }
 
 function applyOverrideToHimalayan(
   trek: HimalayanTrek,
-  override: TrekOverride | null
+  override: TrekOverride | null,
+  imageUrl?: string
 ): HimalayanTrek {
-  if (!override) return trek;
+  const nextTrek = imageUrl ? { ...trek, image: imageUrl } : trek;
+  if (!override) return nextTrek;
 
   return {
-    ...trek,
-    title: override.title || trek.title,
-    price: override.price || trek.price,
-    duration: override.duration || trek.duration,
-    difficulty: override.difficulty || trek.difficulty,
-    elevation: override.altitude || trek.elevation,
+    ...nextTrek,
+    title: override.title || nextTrek.title,
+    price: override.price || nextTrek.price,
+    duration: override.duration || nextTrek.duration,
+    difficulty: override.difficulty || nextTrek.difficulty,
+    elevation: override.altitude || nextTrek.elevation,
   };
 }
 
@@ -169,28 +182,56 @@ export async function getTrekBySlugWithOverrides(slug: string) {
   const override = await fetchTrekOverride(trekId);
   if (!isTripActive(override)) return null;
 
-  return applyOverrideToTrek(base, override);
+  const images = await getTripGalleryImages(trekId, base.images);
+  return applyOverrideToTrek(base, override, images);
 }
 
 export async function getPackagesWithOverrides(packages: TrekCard[]) {
   const overrides = await fetchAllTrekOverrides();
-  return packages
-    .filter((pkg) => isTripActive(overrides[pkg.id]))
-    .map((pkg) => applyOverrideToCard(pkg, overrides[pkg.id] ?? null));
+  const imageOverrides = await fetchAllImageOverrides();
+
+  return Promise.all(
+    packages
+      .filter((pkg) => isTripActive(overrides[pkg.id]))
+      .map(async (pkg) => {
+        const cover =
+          imageOverrides[`trip:${pkg.id}:cover`]?.url ||
+          (await getTripCoverImage(pkg.id, pkg.image));
+        return applyOverrideToCard(pkg, overrides[pkg.id] ?? null, cover);
+      })
+  );
 }
 
 export async function getToursWithOverrides() {
   const overrides = await fetchAllTrekOverrides();
-  return weekendTours
-    .filter((tour) => isTripActive(overrides[tour.id]))
-    .map((tour) => applyOverrideToTour(tour, overrides[tour.id] ?? null));
+  const imageOverrides = await fetchAllImageOverrides();
+
+  return Promise.all(
+    weekendTours
+      .filter((tour) => isTripActive(overrides[tour.id]))
+      .map(async (tour) => {
+        const cover =
+          imageOverrides[`trip:${tour.id}:cover`]?.url ||
+          (await getTripCoverImage(tour.id, tour.image));
+        return applyOverrideToTour(tour, overrides[tour.id] ?? null, cover);
+      })
+  );
 }
 
 export async function getHimalayanWithOverrides() {
   const overrides = await fetchAllTrekOverrides();
-  return himalayanTreks
-    .filter((trek) => isTripActive(overrides[trek.id]))
-    .map((trek) => applyOverrideToHimalayan(trek, overrides[trek.id] ?? null));
+  const imageOverrides = await fetchAllImageOverrides();
+
+  return Promise.all(
+    himalayanTreks
+      .filter((trek) => isTripActive(overrides[trek.id]))
+      .map(async (trek) => {
+        const cover =
+          imageOverrides[`trip:${trek.id}:cover`]?.url ||
+          (await getTripCoverImage(trek.id, trek.image));
+        return applyOverrideToHimalayan(trek, overrides[trek.id] ?? null, cover);
+      })
+  );
 }
 
 function buildUpsertPayload(

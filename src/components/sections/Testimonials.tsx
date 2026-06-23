@@ -28,19 +28,19 @@ export default function Testimonials() {
           {testimonials.map((t) => (
             <div
               key={t.id}
-              className="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:shadow-md transition-shadow"
+              className="p-6 rounded-2xl border border-brand-border bg-surface hover:shadow-md transition-shadow"
             >
               <StarRating rating={t.rating} />
-              <p className="mt-3 text-gray-700 text-sm leading-relaxed italic">
+              <p className="mt-3 text-brand-text text-sm leading-relaxed italic">
                 &ldquo;{t.quote}&rdquo;
               </p>
               <div className="mt-5 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-xs flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-cta-light flex items-center justify-center text-cta font-bold text-xs flex-shrink-0">
                   {t.initials}
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 text-sm">{t.name}</p>
-                  <p className="text-xs text-gray-400">{t.trek}</p>
+                  <p className="font-semibold text-brand-text text-sm">{t.name}</p>
+                  <p className="text-xs text-brand-subtle">{t.trek}</p>
                 </div>
               </div>
             </div>

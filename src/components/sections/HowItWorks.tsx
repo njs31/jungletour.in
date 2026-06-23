@@ -29,14 +29,14 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 md:py-24 bg-gray-900 text-white">
+    <section className="py-16 md:py-24 bg-navy text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-orange-400 mb-2">
+          <p className="text-sm font-semibold uppercase tracking-widest text-cta mb-2">
             Simple process
           </p>
           <h2 className="text-3xl md:text-4xl font-bold">From Sofa to Summit</h2>
-          <p className="mt-3 text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
+          <p className="mt-3 text-white/60 text-base md:text-lg max-w-2xl mx-auto">
             Getting on a trek with us is easier than you think.
           </p>
         </div>
@@ -45,17 +45,17 @@ export default function HowItWorks() {
           {steps.map((s, i) => (
             <div key={s.step} className="relative">
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-orange-500/30 z-0" />
+                <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-cta/30 z-0" />
               )}
               <div className="relative z-10">
-                <div className="w-14 h-14 rounded-full bg-orange-500/20 border border-orange-500/40 flex items-center justify-center text-2xl mb-4">
+                <div className="w-14 h-14 rounded-full bg-cta/20 border border-cta/40 flex items-center justify-center text-2xl mb-4">
                   {s.emoji}
                 </div>
-                <p className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1">
+                <p className="text-xs font-bold text-cta uppercase tracking-widest mb-1">
                   Step {s.step}
                 </p>
                 <h3 className="font-bold text-white text-base mb-2">{s.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed">{s.desc}</p>
+                <p className="text-sm text-white/60 leading-relaxed">{s.desc}</p>
               </div>
             </div>
           ))}

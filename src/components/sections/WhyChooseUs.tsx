@@ -39,13 +39,13 @@ export default function WhyChooseUs() {
           {pillars.map((p) => (
             <div
               key={p.title}
-              className="p-6 rounded-2xl bg-orange-50 border border-orange-100 hover:shadow-md transition-shadow"
+              className="p-6 rounded-2xl bg-cta-light border border-cta/20 hover:shadow-md transition-shadow"
             >
               <div className="text-4xl mb-4">{p.emoji}</div>
-              <h3 className="font-bold text-gray-900 text-base mb-2">
+              <h3 className="font-bold text-brand-text text-base mb-2">
                 {p.title}
               </h3>
-              <p className="text-sm text-gray-500 leading-relaxed">{p.desc}</p>
+              <p className="text-sm text-brand-muted leading-relaxed">{p.desc}</p>
             </div>
           ))}
         </div>

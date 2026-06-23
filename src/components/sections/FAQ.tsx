@@ -25,25 +25,25 @@ export default function FAQ() {
             return (
               <div
                 key={faq.id}
-                className="border border-gray-200 rounded-xl overflow-hidden"
+                className="border border-brand-border rounded-xl overflow-hidden"
               >
                 <button
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-surface transition-colors"
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                 >
-                  <span className="font-semibold text-gray-900 text-sm">
+                  <span className="font-semibold text-brand-text text-sm">
                     {faq.question}
                   </span>
                   <ChevronDown
                     size={18}
-                    className={`flex-shrink-0 text-gray-400 transition-transform duration-200 ${
+                    className={`flex-shrink-0 text-brand-subtle transition-transform duration-200 ${
                       isOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
                 {isOpen && (
                   <div className="px-5 pb-5">
-                    <p className="text-sm text-gray-600 leading-relaxed">
+                    <p className="text-sm text-brand-muted leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>

@@ -26,19 +26,19 @@ export default function TrekCard({ trek, href }: TrekCardProps) {
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
-        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-800 flex items-center gap-1">
+        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-brand-text flex items-center gap-1">
           <span>{trek.badgeEmoji}</span>
           <span>{trek.badge}</span>
         </div>
       </div>
       <div className="p-4 flex flex-col flex-1">
-        <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">
+        <p className="text-xs text-brand-subtle uppercase tracking-wide font-medium">
           {trek.location}
         </p>
-        <h3 className="font-semibold text-gray-900 mt-1 text-sm leading-snug line-clamp-2 group-hover:text-orange-600 transition-colors">
+        <h3 className="font-semibold text-brand-text mt-1 text-sm leading-snug line-clamp-2 group-hover:text-cta transition-colors">
           {trek.title}
         </h3>
-        <div className="flex gap-3 text-xs text-gray-500 mt-2">
+        <div className="flex gap-3 text-xs text-brand-muted mt-2">
           <span>⏱ {trek.duration}</span>
           {"elevation" in trek && trek.elevation && (
             <span>📍 {trek.elevation}</span>
@@ -46,12 +46,12 @@ export default function TrekCard({ trek, href }: TrekCardProps) {
         </div>
         <div className="flex items-center justify-between mt-auto pt-4">
           <div>
-            <p className="text-xs text-gray-400">Starting from</p>
-            <p className="text-orange-600 font-bold text-sm">
+            <p className="text-xs text-brand-subtle">Starting from</p>
+            <p className="text-cta font-bold text-sm">
               {trek.price}/person
             </p>
           </div>
-          <span className="text-xs font-semibold text-orange-600 border border-orange-500 rounded-full px-4 py-1.5 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-200">
+          <span className="text-xs font-semibold text-cta border border-cta rounded-full px-4 py-1.5 group-hover:bg-cta group-hover:text-white transition-colors duration-200">
             View Details
           </span>
         </div>

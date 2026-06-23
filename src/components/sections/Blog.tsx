@@ -2,11 +2,13 @@ import LoadingImage from "@/components/ui/LoadingImage";
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { getBlogPostHref } from "@/lib/trips/links";
-import { blogPosts } from "@/data/blog";
+import { getBlogPostsWithOverrides } from "@/lib/images/content";
 
-export default function Blog() {
+export default async function Blog() {
+  const blogPosts = await getBlogPostsWithOverrides();
+
   return (
-    <section id="blog" className="scroll-mt-20 py-16 md:py-24 bg-gray-50">
+    <section id="blog" className="scroll-mt-20 py-16 md:py-24 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
           <SectionHeader
@@ -31,18 +33,18 @@ export default function Blog() {
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
-                <div className="absolute top-3 left-3 bg-orange-500 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                <div className="absolute top-3 left-3 bg-cta text-white text-xs font-semibold px-2.5 py-1 rounded-full">
                   {post.category}
                 </div>
               </div>
               <div className="p-4">
-                <h3 className="font-bold text-gray-900 text-sm leading-snug group-hover:text-orange-600 transition-colors">
+                <h3 className="font-bold text-brand-text text-sm leading-snug group-hover:text-cta transition-colors">
                   {post.title}
                 </h3>
-                <p className="text-xs text-gray-500 mt-1.5 leading-relaxed line-clamp-2">
+                <p className="text-xs text-brand-muted mt-1.5 leading-relaxed line-clamp-2">
                   {post.excerpt}
                 </p>
-                <p className="mt-3 text-xs font-semibold text-orange-500 flex items-center gap-1">
+                <p className="mt-3 text-xs font-semibold text-cta flex items-center gap-1">
                   Read more <span>→</span>
                 </p>
               </div>

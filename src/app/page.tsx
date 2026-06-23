@@ -22,7 +22,9 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <Hero />
+        <Suspense fallback={<SectionLoading />}>
+          <Hero />
+        </Suspense>
         <Stats />
         <Suspense fallback={<SectionLoading />}>
           <FeaturedCategoriesSection />
@@ -33,12 +35,18 @@ export default function Home() {
         <Suspense fallback={<SectionLoading />}>
           <HimalayanTreks />
         </Suspense>
-        <Destinations />
+        <Suspense fallback={<SectionLoading />}>
+          <Destinations />
+        </Suspense>
         <WhyChooseUs />
         <HowItWorks />
         <Testimonials />
-        <CTABanner />
-        <Blog />
+        <Suspense fallback={<SectionLoading />}>
+          <CTABanner />
+        </Suspense>
+        <Suspense fallback={<SectionLoading />}>
+          <Blog />
+        </Suspense>
         <FAQ />
       </main>
       <Footer />

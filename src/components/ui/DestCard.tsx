@@ -17,10 +17,10 @@ export default function DestCard({ dest }: { dest: Destination }) {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent group-hover:from-black/80 transition-colors duration-300" />
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-        <h3 className="font-bold text-base group-hover:text-orange-300 transition-colors">
+        <h3 className="font-bold text-base group-hover:text-cta-muted transition-colors">
           {dest.name}
         </h3>
-        <p className="text-xs text-gray-300 mt-0.5">{dest.count}</p>
+        <p className="text-xs text-white/70 mt-0.5">{dest.count}</p>
       </div>
     </Link>
   );

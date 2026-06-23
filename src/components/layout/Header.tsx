@@ -38,8 +38,9 @@ export default function Header() {
               priority
               showLabel={false}
             />
-            <span className="font-bold text-gray-900 text-sm sm:text-base">
-              JUNGLE <span className="text-orange-500">Tours & Treks</span>
+            <span className="font-bold text-sm sm:text-base">
+              <span className="text-navy">JUNGLE</span>{" "}
+              <span className="text-cta">Tours & Treks</span>
             </span>
           </Link>
 
@@ -49,7 +50,7 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
+                className="text-sm font-medium text-brand-text hover:text-cta transition-colors"
               >
                 {link.label}
               </a>
@@ -60,7 +61,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <a
               href="tel:+918310822183"
-              className="text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
+              className="text-sm font-semibold text-cta hover:text-cta-hover transition-colors"
             >
               +91 83108 22183
             </a>
@@ -68,7 +69,7 @@ export default function Header() {
               href="https://wa.me/918310822183"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
+              className="bg-cta hover:bg-cta-hover text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
             >
               WhatsApp Us
             </a>
@@ -76,7 +77,7 @@ export default function Header() {
 
           {/* Mobile hamburger */}
           <button
-            className="lg:hidden p-2 rounded-md text-gray-700 hover:text-orange-500"
+            className="lg:hidden p-2 rounded-md text-brand-text hover:text-cta"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -87,21 +88,21 @@ export default function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-3">
+        <div className="lg:hidden bg-white border-t border-brand-border px-4 py-4 space-y-3">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block text-sm font-medium text-gray-700 hover:text-orange-500 py-2"
+              className="block text-sm font-medium text-brand-text hover:text-cta py-2"
             >
               {link.label}
             </a>
           ))}
-          <div className="pt-2 border-t border-gray-100">
+          <div className="pt-2 border-t border-brand-border">
             <a
               href="tel:+918310822183"
-              className="block text-sm font-semibold text-orange-600 py-2"
+              className="block text-sm font-semibold text-cta py-2"
             >
               +91 83108 22183
             </a>
@@ -109,7 +110,7 @@ export default function Header() {
               href="https://wa.me/918310822183"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-2 bg-orange-500 text-white text-sm font-semibold px-5 py-2 rounded-full"
+              className="inline-block mt-2 bg-cta text-white text-sm font-semibold px-5 py-2 rounded-full"
             >
               WhatsApp Us
             </a>

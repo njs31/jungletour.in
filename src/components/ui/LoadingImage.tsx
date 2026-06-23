@@ -27,7 +27,7 @@ export default function LoadingImage({
   const image = (
     <>
       {!loaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-gray-100/90">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/90">
           <LoadingAnimation size="sm" showLabel={showLabel} label="Loading" />
         </div>
       )}

@@ -1,10 +1,12 @@
 import DestCard from "@/components/ui/DestCard";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { destinations } from "@/data/destinations";
+import { getDestinationsWithOverrides } from "@/lib/images/content";
 
-export default function Destinations() {
+export default async function Destinations() {
+  const destinations = await getDestinationsWithOverrides();
+
   return (
-    <section id="destinations" className="py-16 md:py-24 bg-gray-50">
+    <section id="destinations" className="py-16 md:py-24 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <SectionHeader

@@ -1,9 +1,14 @@
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { listAdminTreks } from "@/lib/treks/overrides";
-import AdminLogoutButton from "@/components/admin/AdminLogoutButton";
+import { listBookingInquiries } from "@/lib/bookings";
+import { buildImageCatalog } from "@/lib/images/catalog";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminStatCard from "@/components/admin/AdminStatCard";
 import AdminBookingsSection from "@/components/admin/AdminBookingsSection";
+import AdminTripsSection from "@/components/admin/AdminTripsSection";
+import AdminQuickNav from "@/components/admin/AdminQuickNav";
 
 const sectionOrder = [
   { key: "trek", label: "Package treks" },
@@ -15,105 +20,58 @@ export default async function AdminDashboardPage() {
   const authed = await isAdminAuthenticated();
   if (!authed) redirect("/admin/login");
 
-  const trips = await listAdminTreks();
+  const [trips, bookings] = await Promise.all([
+    listAdminTreks(),
+    listBookingInquiries(),
+  ]);
+
+  const activeTrips = trips.filter((trip) => trip.isActive).length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-orange-500">
-              Admin Panel
-            </p>
-            <h1 className="text-xl font-bold text-gray-900">Manage Trips</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link href="/" className="text-sm text-gray-600 hover:text-orange-600">
-              View site
-            </Link>
-            <AdminLogoutButton />
-          </div>
+    <AdminShell eyebrow="Dashboard" title="Jungle Tours & Treks">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <AdminStatCard
+          label="Bookings"
+          value={bookings.length}
+          hint="All submissions"
+        />
+        <AdminStatCard
+          label="Active trips"
+          value={activeTrips}
+          hint={`${trips.length} total trips`}
+        />
+      </div>
+
+      <Link
+        href="/admin/images"
+        className="mb-2 flex items-center justify-between rounded-2xl border border-brand-border bg-white p-4 shadow-sm transition-colors hover:border-cta/30 hover:bg-cta-light/40 sm:p-5"
+      >
+        <div>
+          <p className="text-sm font-semibold text-brand-text">Image library</p>
+          <p className="mt-1 text-xs text-brand-muted">
+            Upload, replace, or reset {buildImageCatalog().length} website images
+          </p>
         </div>
-      </header>
+        <span className="rounded-full bg-navy px-4 py-2 text-xs font-semibold text-white">
+          Manage
+        </span>
+      </Link>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+      <AdminQuickNav />
+
+      <div className="space-y-6 sm:space-y-8">
         <AdminBookingsSection />
-        {sectionOrder.map((section) => {
-          const sectionTrips = trips.filter((trip) => trip.kind === section.key);
-          if (sectionTrips.length === 0) return null;
 
-          return (
-            <div
+        <div id="trips" className="scroll-mt-28 space-y-6 sm:space-y-8">
+          {sectionOrder.map((section) => (
+            <AdminTripsSection
               key={section.key}
-              className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
-            >
-              <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
-                <h2 className="text-sm font-semibold text-gray-800">{section.label}</h2>
-              </div>
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                      Trip
-                    </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                      Price
-                    </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                      Duration
-                    </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                      Next trips
-                    </th>
-                    <th className="text-left px-4 py-3 font-semibold text-gray-700">
-                      Status
-                    </th>
-                    <th className="px-4 py-3" />
-                  </tr>
-                </thead>
-                <tbody>
-                  {sectionTrips.map((trip) => (
-                    <tr key={trip.id} className="border-b border-gray-100 last:border-0">
-                      <td className="px-4 py-3">
-                        <p className="font-medium text-gray-900">{trip.title}</p>
-                        <p className="text-xs text-gray-500">{trip.kindLabel}</p>
-                      </td>
-                      <td className="px-4 py-3 text-orange-600 font-semibold">
-                        {trip.price}
-                      </td>
-                      <td className="px-4 py-3 text-gray-600">{trip.duration}</td>
-                      <td className="px-4 py-3 text-gray-600">
-                        {trip.nextTripDates.length > 0
-                          ? `${trip.nextTripDates.length} date(s)`
-                          : "—"}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span
-                          className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                            trip.isActive
-                              ? "bg-green-50 text-green-700"
-                              : "bg-gray-100 text-gray-500"
-                          }`}
-                        >
-                          {trip.isActive ? "Active" : "Hidden"}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <Link
-                          href={`/admin/treks/${trip.id}`}
-                          className="text-orange-600 hover:text-orange-700 font-semibold"
-                        >
-                          Edit
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          );
-        })}
-      </main>
-    </div>
+              label={section.label}
+              trips={trips.filter((trip) => trip.kind === section.key)}
+            />
+          ))}
+        </div>
+      </div>
+    </AdminShell>
   );
 }

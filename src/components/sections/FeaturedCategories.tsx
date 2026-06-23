@@ -80,8 +80,8 @@ export default function FeaturedCategories({
               onClick={() => selectTab(tab.id)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
                 activeTab === tab.id
-                  ? "bg-orange-500 text-white shadow-md"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-cta text-white shadow-md"
+                  : "bg-surface text-brand-muted hover:bg-surface"
               }`}
             >
               <span>{tab.emoji}</span>

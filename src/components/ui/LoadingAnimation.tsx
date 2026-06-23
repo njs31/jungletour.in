@@ -36,7 +36,7 @@ export default function LoadingAnimation({
           className="absolute inset-0 animate-spin rounded-full"
           style={{
             background:
-              "conic-gradient(from 0deg, transparent 0deg, transparent 250deg, #2563eb 310deg, #3b82f6 360deg)",
+              "conic-gradient(from 0deg, transparent 0deg, transparent 250deg, #0B0B45 310deg, #16165c 360deg)",
           }}
         />
         <div
@@ -56,7 +56,7 @@ export default function LoadingAnimation({
         </div>
       </div>
       {showLabel && (
-        <p className="mt-3 text-sm font-semibold tracking-wide text-blue-600 uppercase">
+        <p className="mt-3 text-sm font-semibold tracking-wide text-navy uppercase">
           {label}
         </p>
       )}

@@ -9,7 +9,7 @@ const tourLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-navy text-white/70">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Column 1 – Brand */}
@@ -23,11 +23,12 @@ export default function Footer() {
                 className="rounded-full object-cover"
                 showLabel={false}
               />
-              <span className="font-bold text-white text-base">
-                JUNGLE <span className="text-orange-400">Tours & Treks</span>
+              <span className="font-bold text-base">
+                <span className="text-white">JUNGLE</span>{" "}
+                <span className="text-cta">Tours & Treks</span>
               </span>
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed mb-5">
+            <p className="text-sm text-white/60 leading-relaxed mb-5">
               Expert-led treks and weekend tours from Bangalore. Curated for
               every kind of adventurer since 2017.
             </p>
@@ -43,7 +44,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-8 h-8 rounded-full bg-gray-800 hover:bg-orange-500 flex items-center justify-center text-gray-400 hover:text-white transition-colors text-xs font-bold"
+                  className="w-8 h-8 rounded-full bg-navy-light hover:bg-cta flex items-center justify-center text-white/60 hover:text-white transition-colors text-xs font-bold"
                 >
                   {s.icon}
                 </a>
@@ -52,14 +53,14 @@ export default function Footer() {
 
             {/* Tour destination links */}
             <div className="mt-6">
-              <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">
+              <p className="text-xs font-semibold uppercase tracking-widest text-white/50 mb-3">
                 Popular Destinations
               </p>
               <div className="flex flex-wrap gap-2">
                 {tourLinks.map((t) => (
                   <span
                     key={t}
-                    className="text-xs text-gray-400 hover:text-orange-400 cursor-pointer transition-colors"
+                    className="text-xs text-white/55 hover:text-cta cursor-pointer transition-colors"
                   >
                     {t}
                   </span>
@@ -76,7 +77,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               {["Blogs", "About Us", "Careers", "Partner with Us"].map((l) => (
                 <li key={l}>
-                  <span className="text-gray-400 hover:text-orange-400 cursor-pointer transition-colors">
+                  <span className="text-white/55 hover:text-cta cursor-pointer transition-colors">
                     {l}
                   </span>
                 </li>
@@ -90,7 +91,7 @@ export default function Footer() {
               {["Terms of Use", "Privacy Policy", "Terms & Conditions"].map(
                 (l) => (
                   <li key={l}>
-                    <span className="text-gray-400 hover:text-orange-400 cursor-pointer transition-colors">
+                    <span className="text-white/55 hover:text-cta cursor-pointer transition-colors">
                       {l}
                     </span>
                   </li>
@@ -106,29 +107,29 @@ export default function Footer() {
             </p>
             <ul className="space-y-3 text-sm">
               <li>
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">
+                <p className="text-xs text-white/50 uppercase tracking-wide mb-0.5">
                   Phone
                 </p>
                 <a
                   href="tel:+918310822183"
-                  className="text-gray-300 hover:text-orange-400 transition-colors font-medium"
+                  className="text-white/70 hover:text-cta transition-colors font-medium"
                 >
                   +91 8310822183
                 </a>
               </li>
               <li>
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">
+                <p className="text-xs text-white/50 uppercase tracking-wide mb-0.5">
                   Email
                 </p>
                 <a
                   href="mailto:info@jungletoursandtreks.in"
-                  className="text-gray-300 hover:text-orange-400 transition-colors"
+                  className="text-white/70 hover:text-cta transition-colors"
                 >
                   info@jungletoursandtreks.in
                 </a>
               </li>
               <li>
-                <p className="text-xs text-gray-500 uppercase tracking-wide mb-0.5">
+                <p className="text-xs text-white/50 uppercase tracking-wide mb-0.5">
                   WhatsApp
                 </p>
                 <a
@@ -144,7 +145,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-500">
+        <div className="mt-12 pt-6 border-t border-navy-light text-center text-xs text-white/50">
           © 2026 Jungle Tours & Treks. All rights reserved.
         </div>
       </div>

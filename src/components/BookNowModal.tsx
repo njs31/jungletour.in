@@ -129,7 +129,7 @@ export default function BookNowModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+          className="absolute right-4 top-4 rounded-full p-1.5 text-brand-muted hover:bg-surface hover:text-brand-text"
           aria-label="Close"
         >
           <X size={20} />
@@ -140,19 +140,19 @@ export default function BookNowModal({
             <p className="text-lg font-semibold text-green-700">
               Booking request received!
             </p>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-brand-muted">
               Our team will contact you shortly on {phone}.
             </p>
           </div>
         ) : (
           <>
-            <p className="text-xs font-bold uppercase tracking-widest text-orange-500 mb-2">
+            <p className="text-xs font-bold uppercase tracking-widest text-cta mb-2">
               Book Now
             </p>
-            <h2 id="book-now-title" className="text-xl font-bold text-gray-900 pr-8">
+            <h2 id="book-now-title" className="text-xl font-bold text-brand-text pr-8">
               {tripTitle}
             </h2>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-brand-muted">
               Share your details and we&apos;ll get back to you to confirm your
               booking.
             </p>
@@ -161,7 +161,7 @@ export default function BookNowModal({
               <div>
                 <label
                   htmlFor="booking-name"
-                  className="mb-1.5 block text-sm font-medium text-gray-800"
+                  className="mb-1.5 block text-sm font-medium text-brand-text"
                 >
                   Name
                 </label>
@@ -172,14 +172,14 @@ export default function BookNowModal({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your full name"
-                  className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
+                  className="w-full rounded-lg border border-brand-border px-3.5 py-2.5 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="booking-phone"
-                  className="mb-1.5 block text-sm font-medium text-gray-800"
+                  className="mb-1.5 block text-sm font-medium text-brand-text"
                 >
                   Mobile number
                 </label>
@@ -191,14 +191,14 @@ export default function BookNowModal({
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="10-digit mobile number"
-                  className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20"
+                  className="w-full rounded-lg border border-brand-border px-3.5 py-2.5 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="booking-captcha"
-                  className="mb-1.5 block text-sm font-medium text-gray-800"
+                  className="mb-1.5 block text-sm font-medium text-brand-text"
                 >
                   {captcha
                     ? `What is ${captcha.a} + ${captcha.b}?`
@@ -212,7 +212,7 @@ export default function BookNowModal({
                   onChange={(e) => setAnswer(e.target.value)}
                   placeholder="Enter the answer"
                   disabled={!captcha}
-                  className="w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 disabled:bg-gray-50"
+                  className="w-full rounded-lg border border-brand-border px-3.5 py-2.5 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20 disabled:bg-surface"
                 />
               </div>
 
@@ -221,7 +221,7 @@ export default function BookNowModal({
               <button
                 type="submit"
                 disabled={isSubmitting || !captcha}
-                className="w-full rounded-full bg-orange-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-full bg-cta py-3 text-sm font-semibold text-white transition-colors hover:bg-cta-hover disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? "Loading" : "Submit"}
               </button>
