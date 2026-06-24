@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import { Construction, MessageCircle, Phone } from "lucide-react";
-import {
-  CONTACT_PHONE_TEL,
-  CONTACT_WHATSAPP_URL,
-} from "@/lib/contact";
+import { Construction } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Under Maintenance | Jungle Tours & Treks",
@@ -38,34 +34,6 @@ export default function UnderDeploymentPage() {
           We&apos;re performing scheduled maintenance to improve your experience.
           The full site will be back online shortly. Thank you for your patience.
         </p>
-
-        <div className="mt-8 rounded-2xl border border-white/15 bg-white/5 p-5 text-left backdrop-blur-sm sm:p-6">
-          <p className="text-sm font-semibold text-white">
-            Need to book a trek or tour?
-          </p>
-          <p className="mt-1 text-xs text-white/65 sm:text-sm">
-            Reach us directly while the site is under maintenance.
-          </p>
-
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={CONTACT_WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-cta px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-cta-hover"
-            >
-              <MessageCircle className="size-4" aria-hidden />
-              WhatsApp
-            </a>
-            <a
-              href={CONTACT_PHONE_TEL}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/15"
-            >
-              <Phone className="size-4" aria-hidden />
-              Call us
-            </a>
-          </div>
-        </div>
 
         <p className="mt-8 text-xs text-white/45">
           Expert-led adventures from Bangalore since 2017
