@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import LoadingImage from "@/components/ui/LoadingImage";
 import LoadingOverlay from "@/components/ui/LoadingOverlay";
 import { X } from "lucide-react";
@@ -25,6 +26,7 @@ const galleryImages = [
 const countryCodes = ["+91", "+1", "+44", "+61", "+971", "+65"];
 
 export default function LeadCaptureModal() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -37,11 +39,12 @@ export default function LeadCaptureModal() {
   });
 
   useEffect(() => {
+    if (pathname === "/under-deployment") return;
     if (sessionStorage.getItem(STORAGE_KEY)) return;
 
     const timer = window.setTimeout(() => setIsOpen(true), 600);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -80,6 +83,7 @@ export default function LeadCaptureModal() {
     }, 1200);
   }
 
+  if (pathname === "/under-deployment") return null;
   if (!isOpen) return null;
 
   return (
