@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import {
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_TEL,
+  CONTACT_WHATSAPP_URL,
+} from "@/lib/contact";
 import { Menu, X } from "lucide-react";
 import LoadingImage from "@/components/ui/LoadingImage";
 
@@ -60,13 +65,13 @@ export default function Header() {
           {/* Contact CTA */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href="tel:+918310822183"
+              href={CONTACT_PHONE_TEL}
               className="text-sm font-semibold text-cta hover:text-cta-hover transition-colors"
             >
-              +91 83108 22183
+              {CONTACT_PHONE_DISPLAY}
             </a>
             <a
-              href="https://wa.me/918310822183"
+              href={CONTACT_WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-cta hover:bg-cta-hover text-white text-sm font-semibold px-4 py-2 rounded-full transition-colors"
@@ -101,13 +106,13 @@ export default function Header() {
           ))}
           <div className="pt-2 border-t border-brand-border">
             <a
-              href="tel:+918310822183"
+              href={CONTACT_PHONE_TEL}
               className="block text-sm font-semibold text-cta py-2"
             >
-              +91 83108 22183
+              {CONTACT_PHONE_DISPLAY}
             </a>
             <a
-              href="https://wa.me/918310822183"
+              href={CONTACT_WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block mt-2 bg-cta text-white text-sm font-semibold px-5 py-2 rounded-full"

@@ -1,4 +1,5 @@
 import { getTrekDetailHref } from "@/data/treks";
+import { getWhatsAppUrl } from "@/lib/contact";
 
 const TOUR_TREK_ALIASES: Record<string, string> = {
   "gokarna-murudeshwar": "gokarna-beach",
@@ -14,9 +15,7 @@ export function resolveTripHref(id: string, title?: string): string {
   if (trekHref) return trekHref;
 
   const label = title ?? id;
-  return `https://wa.me/918310822183?text=${encodeURIComponent(
-    `Hi! I'd like to know more about ${label}.`
-  )}`;
+  return getWhatsAppUrl(`Hi! I'd like to know more about ${label}.`);
 }
 
 export function isExternalHref(href: string) {

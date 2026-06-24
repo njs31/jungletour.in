@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import BookNowModal from "@/components/BookNowModal";
 import type { TrekDetail } from "@/types/trek-detail";
+import { CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL } from "@/lib/contact";
 
 const sectionNav = [
   { id: "highlights", label: "Highlights" },
@@ -627,14 +628,14 @@ function PriceCard({
           Book Now
         </button>
         <a
-          href="tel:+918310822183"
+          href={CONTACT_PHONE_TEL}
           className="block w-full text-center border border-cta text-cta font-semibold py-3 rounded-full hover:bg-cta-light transition-colors text-sm"
         >
           Send Enquiry
         </a>
       </div>
       <p className="text-xs text-brand-subtle text-center mt-3">
-        Call us anytime · +91 83108 22183
+        Call us anytime · {CONTACT_PHONE_DISPLAY}
       </p>
     </div>
   );

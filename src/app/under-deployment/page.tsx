@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Construction, MessageCircle, Phone } from "lucide-react";
+import {
+  CONTACT_PHONE_TEL,
+  CONTACT_WHATSAPP_URL,
+} from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Under Maintenance | Jungle Tours & Treks",
@@ -45,7 +49,7 @@ export default function UnderDeploymentPage() {
 
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <a
-              href="https://wa.me/918310822183"
+              href={CONTACT_WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-cta px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-cta-hover"
@@ -54,7 +58,7 @@ export default function UnderDeploymentPage() {
               WhatsApp
             </a>
             <a
-              href="tel:+918310822183"
+              href={CONTACT_PHONE_TEL}
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/15"
             >
               <Phone className="size-4" aria-hidden />

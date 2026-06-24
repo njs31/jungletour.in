@@ -1,5 +1,10 @@
 import Link from "next/link";
 import LoadingImage from "@/components/ui/LoadingImage";
+import {
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_TEL,
+  CONTACT_WHATSAPP_URL,
+} from "@/lib/contact";
 
 const tourLinks = [
   "Thailand", "Andaman & Nicobar", "Goa", "Kashmir", "Kerala",
@@ -111,10 +116,10 @@ export default function Footer() {
                   Phone
                 </p>
                 <a
-                  href="tel:+918310822183"
+                  href={CONTACT_PHONE_TEL}
                   className="text-white/70 hover:text-cta transition-colors font-medium"
                 >
-                  +91 8310822183
+                  {CONTACT_PHONE_DISPLAY}
                 </a>
               </li>
               <li>
@@ -133,7 +138,7 @@ export default function Footer() {
                   WhatsApp
                 </p>
                 <a
-                  href="https://wa.me/918310822183"
+                  href={CONTACT_WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 mt-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors"

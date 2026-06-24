@@ -1,5 +1,9 @@
 import { getResolvedImageUrl } from "@/lib/images/overrides";
 import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
+import {
+  CONTACT_PHONE_TEL,
+  CONTACT_WHATSAPP_URL,
+} from "@/lib/contact";
 
 export default async function CTABanner() {
   const backgroundImage = await getResolvedImageUrl(
@@ -26,13 +30,13 @@ export default async function CTABanner() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="tel:+918310822183"
+            href={CONTACT_PHONE_TEL}
             className="bg-cta text-white font-semibold px-8 py-3.5 rounded-full hover:bg-cta-hover transition-colors"
           >
             Talk to an Expert
           </a>
           <a
-            href="https://wa.me/918310822183"
+            href={CONTACT_WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-transparent border-2 border-white text-white font-semibold px-8 py-3.5 rounded-full hover:bg-white/15 transition-colors"
