@@ -1,10 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-function isUnderDeployment() {
-  return process.env.SITE_UNDER_DEPLOYMENT === "true";
+function isMaintenanceEnabled() {
+  return process.env.SITE_MAINTENANCE !== "false";
 }
 
-function isAllowedDuringDeployment(pathname: string) {
+function isAllowedDuringMaintenance(pathname: string) {
   if (pathname.startsWith("/admin")) return true;
   if (pathname.startsWith("/api/admin")) return true;
   if (pathname === "/under-deployment") return true;
@@ -14,13 +14,13 @@ function isAllowedDuringDeployment(pathname: string) {
 }
 
 export function middleware(request: NextRequest) {
-  if (!isUnderDeployment()) {
+  if (!isMaintenanceEnabled()) {
     return NextResponse.next();
   }
 
   const { pathname } = request.nextUrl;
 
-  if (isAllowedDuringDeployment(pathname)) {
+  if (isAllowedDuringMaintenance(pathname)) {
     return NextResponse.next();
   }
 
