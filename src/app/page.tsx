@@ -3,12 +3,12 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import Stats from "@/components/sections/Stats";
+import ExploreCategories from "@/components/sections/ExploreCategories";
 import FeaturedCategoriesSection from "@/components/sections/FeaturedCategoriesSection";
 import WeekendTours from "@/components/sections/WeekendTours";
 import HimalayanTreks from "@/components/sections/HimalayanTreks";
 import Destinations from "@/components/sections/Destinations";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
-import HowItWorks from "@/components/sections/HowItWorks";
 import Testimonials from "@/components/sections/Testimonials";
 import CTABanner from "@/components/sections/CTABanner";
 import Blog from "@/components/sections/Blog";
@@ -26,6 +26,7 @@ export default function Home() {
           <Hero />
         </Suspense>
         <Stats />
+        <ExploreCategories />
         <Suspense fallback={<SectionLoading />}>
           <FeaturedCategoriesSection />
         </Suspense>
@@ -39,7 +40,6 @@ export default function Home() {
           <Destinations />
         </Suspense>
         <WhyChooseUs />
-        <HowItWorks />
         <Testimonials />
         <Suspense fallback={<SectionLoading />}>
           <CTABanner />

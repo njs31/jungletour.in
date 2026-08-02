@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getResolvedImageUrl } from "@/lib/images/overrides";
 import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
 import {
@@ -12,36 +13,36 @@ export default async function CTABanner() {
   );
 
   return (
-    <section
-      className="relative py-20 overflow-hidden"
-      style={{
-        backgroundImage: `url('${backgroundImage}')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="absolute inset-0 bg-navy/90" />
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-          Your Next Adventure is One Click Away
+    <section className="relative overflow-hidden py-20">
+      <Image
+        src={backgroundImage}
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-navy/88" />
+      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center text-white sm:px-6 lg:px-8">
+        <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          Ready for your next trail?
         </h2>
-        <p className="text-lg text-white/80 mb-8 max-w-xl mx-auto">
-          Join 50,000+ trekkers who chose the Western Ghats this season.
+        <p className="mx-auto mt-4 max-w-xl text-base text-white/80 sm:text-lg">
+          Call or WhatsApp us — we&apos;ll help you pick the right trek or getaway.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a
             href={CONTACT_PHONE_TEL}
-            className="bg-cta text-white font-semibold px-8 py-3.5 rounded-full hover:bg-cta-hover transition-colors"
+            className="rounded-full bg-cta px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover sm:text-base"
           >
-            Talk to an Expert
+            Call
           </a>
           <a
             href={CONTACT_WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-transparent border-2 border-white text-white font-semibold px-8 py-3.5 rounded-full hover:bg-white/15 transition-colors"
+            className="rounded-full border-2 border-white px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:text-base"
           >
-            WhatsApp Us
+            WhatsApp
           </a>
         </div>
       </div>

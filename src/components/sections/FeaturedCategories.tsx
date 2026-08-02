@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import TrekCard from "@/components/ui/TrekCard";
+import PackageSlider from "@/components/ui/PackageSlider";
 import SectionHeader from "@/components/ui/SectionHeader";
 import type { TrekCard as TrekCardType } from "@/types";
 
 type TabId = "2nights" | "weekend" | "sunrise";
 
-const tabs: { id: TabId; label: string; emoji: string }[] = [
-  { id: "2nights", label: "2 Nights Packages", emoji: "🏕" },
-  { id: "weekend", label: "Weekend Escapes", emoji: "🌄" },
-  { id: "sunrise", label: "Sunrise Treks", emoji: "🌅" },
+const tabs: { id: TabId; label: string }[] = [
+  { id: "2nights", label: "Explore Treks" },
+  { id: "weekend", label: "Weekend Getaways" },
+  { id: "sunrise", label: "Sunrise Treks" },
 ];
 
 const hashToTab: Record<string, TabId> = {
@@ -57,45 +57,43 @@ export default function FeaturedCategories({
   }
 
   return (
-    <section id="packages" className="scroll-mt-20 py-16 md:py-24 bg-white">
+    <section id="packages" className="scroll-mt-20 bg-white py-16 md:py-24">
       <div className="relative h-0">
         <div id="2nights-packages" className="absolute top-0 scroll-mt-20" aria-hidden="true" />
         <div id="weekend-escapes" className="absolute top-0 scroll-mt-20" aria-hidden="true" />
         <div id="sunrise-treks" className="absolute top-0 scroll-mt-20" aria-hidden="true" />
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-col gap-6 md:mb-10 md:flex-row md:items-end md:justify-between">
           <SectionHeader
-            eyebrow="Curated for you"
-            title="Treks: Trails Worth Every Step"
-            subtitle="Handpicked adventures from the Western Ghats and beyond."
+            eyebrow="Popular packages"
+            title="Find your next trail"
+            subtitle="Swipe through handpicked treks and getaways from Bangalore."
           />
         </div>
 
-        {/* Tab switcher */}
-        <div className="flex gap-3 flex-wrap mb-10">
+        <div className="mb-8 flex gap-2 overflow-x-auto pb-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
+              type="button"
               onClick={() => selectTab(tab.id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
+              className={`shrink-0 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
                 activeTab === tab.id
-                  ? "bg-cta text-white shadow-md"
-                  : "bg-surface text-brand-muted hover:bg-surface"
+                  ? "bg-navy text-white shadow-md"
+                  : "bg-surface text-brand-muted hover:text-brand-text"
               }`}
             >
-              <span>{tab.emoji}</span>
-              <span>{tab.label}</span>
+              {tab.label}
             </button>
           ))}
         </div>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {dataMap[activeTab].map((trek) => (
-            <TrekCard key={trek.id} trek={trek} />
-          ))}
-        </div>
+        <PackageSlider
+          key={activeTab}
+          items={dataMap[activeTab]}
+          ariaLabel={tabs.find((tab) => tab.id === activeTab)?.label}
+        />
       </div>
     </section>
   );

@@ -11,9 +11,9 @@ import { trekDetailsBySlug } from "@/data/treks/registry";
 import type { ImageSlot } from "@/types/image-override";
 
 export const SITE_IMAGE_DEFAULTS = {
-  hero: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765285774067_IMG20211128133714_11zon_(2).webp",
+  hero: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80",
   ctaBanner:
-    "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/coverimage--Optimized-sreehari-devadas-wzdhKTE34mk-unsplash.jpg",
+    "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=2000&q=80",
 } as const;
 
 export function buildImageCatalog(): ImageSlot[] {

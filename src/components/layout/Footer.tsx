@@ -33,9 +33,9 @@ export default function Footer() {
                 <span className="text-cta">Tours & Treks</span>
               </span>
             </Link>
-            <p className="text-sm text-white/60 leading-relaxed mb-5">
-              Expert-led treks and weekend tours from Bangalore. Curated for
-              every kind of adventurer since 2017.
+            <p className="mb-5 text-sm leading-relaxed text-white/60">
+              Guided treks and weekend getaways from Bangalore — curated for
+              every kind of adventurer since 2023.
             </p>
             <div className="flex gap-4">
               {[
@@ -112,39 +112,44 @@ export default function Footer() {
             </p>
             <ul className="space-y-3 text-sm">
               <li>
-                <p className="text-xs text-white/50 uppercase tracking-wide mb-0.5">
+                <p className="text-xs uppercase tracking-wide text-white/50 mb-0.5">
                   Phone
                 </p>
                 <a
                   href={CONTACT_PHONE_TEL}
-                  className="text-white/70 hover:text-cta transition-colors font-medium"
+                  className="font-medium text-white/70 transition-colors hover:text-cta"
                 >
                   {CONTACT_PHONE_DISPLAY}
                 </a>
               </li>
               <li>
-                <p className="text-xs text-white/50 uppercase tracking-wide mb-0.5">
+                <p className="text-xs uppercase tracking-wide text-white/50 mb-0.5">
                   Email
                 </p>
                 <a
                   href="mailto:info@jungletoursandtreks.in"
-                  className="text-white/70 hover:text-cta transition-colors"
+                  className="text-white/70 transition-colors hover:text-cta"
                 >
                   info@jungletoursandtreks.in
                 </a>
               </li>
-              <li>
-                <p className="text-xs text-white/50 uppercase tracking-wide mb-0.5">
-                  WhatsApp
-                </p>
-                <a
-                  href={CONTACT_WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-1 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors"
-                >
-                  Chat with Us
-                </a>
+              <li className="pt-1">
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <a
+                    href={CONTACT_PHONE_TEL}
+                    className="inline-flex items-center justify-center rounded-full border border-white/25 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-white/10"
+                  >
+                    Call
+                  </a>
+                  <a
+                    href={CONTACT_WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-full bg-green-600 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-green-700"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
               </li>
             </ul>
           </div>

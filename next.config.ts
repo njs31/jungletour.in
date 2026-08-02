@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
         hostname: "bpu-images-v1.s3.eu-north-1.amazonaws.com",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
       ...(supabaseHostname
         ? [
             {

@@ -36,7 +36,7 @@ export default function UnderDeploymentPage() {
         </p>
 
         <p className="mt-8 text-xs text-white/45">
-          Expert-led adventures from Bangalore since 2017
+          Expert-led adventures from Bangalore since 2023
         </p>
       </div>
     </div>

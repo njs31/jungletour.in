@@ -6,11 +6,13 @@ import type { BookingInquiry } from "@/lib/bookings";
 interface AdminBookingCardProps {
   booking: BookingInquiry;
   submittedLabel: string;
+  whatsappHref: string;
 }
 
 export default function AdminBookingCard({
   booking,
   submittedLabel,
+  whatsappHref,
 }: AdminBookingCardProps) {
   return (
     <article className="rounded-xl border border-brand-border bg-white p-4 shadow-sm">
@@ -19,13 +21,6 @@ export default function AdminBookingCard({
           <p className="font-semibold text-brand-text">{booking.name}</p>
           <p className="mt-0.5 text-xs text-brand-muted">{submittedLabel}</p>
         </div>
-        <a
-          href={`tel:+91${booking.phone}`}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-cta-light px-3 py-2 text-xs font-semibold text-cta-hover transition-colors hover:bg-cta-light"
-        >
-          <Phone className="size-3.5" aria-hidden />
-          Call
-        </a>
       </div>
 
       <div className="mt-3 space-y-2 text-sm">
@@ -44,6 +39,24 @@ export default function AdminBookingCard({
             booking.trip_title
           )}
         </p>
+      </div>
+
+      <div className="mt-4 flex gap-2">
+        <a
+          href={`tel:+91${booking.phone}`}
+          className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-navy px-3 py-2.5 text-xs font-semibold text-white"
+        >
+          <Phone className="size-3.5" aria-hidden />
+          Call
+        </a>
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex flex-1 items-center justify-center rounded-lg bg-green-600 px-3 py-2.5 text-xs font-semibold text-white"
+        >
+          WhatsApp
+        </a>
       </div>
     </article>
   );

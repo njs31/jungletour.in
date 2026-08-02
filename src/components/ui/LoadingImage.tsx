@@ -12,6 +12,7 @@ type LoadingImageProps = ImageProps & {
 export default function LoadingImage({
   className,
   onLoad,
+  onError,
   showLabel = true,
   fill,
   width,
@@ -19,33 +20,43 @@ export default function LoadingImage({
   ...props
 }: LoadingImageProps) {
   const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     setLoaded(false);
+    setFailed(false);
   }, [props.src]);
 
   const image = (
     <>
-      {!loaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface/90">
+      {!loaded && !failed && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#e8efe9]">
           <LoadingAnimation size="sm" showLabel={showLabel} label="Loading" />
         </div>
       )}
-      <Image
-        {...props}
-        fill={fill}
-        width={width}
-        height={height}
-        className={cn(
-          className,
-          "transition-opacity duration-300",
-          loaded ? "opacity-100" : "opacity-0"
-        )}
-        onLoad={(event) => {
-          setLoaded(true);
-          onLoad?.(event);
-        }}
-      />
+      {failed ? (
+        <div className="absolute inset-0 z-10 bg-gradient-to-br from-navy to-navy-light" />
+      ) : (
+        <Image
+          {...props}
+          fill={fill}
+          width={width}
+          height={height}
+          className={cn(
+            className,
+            "transition-opacity duration-300",
+            loaded ? "opacity-100" : "opacity-0"
+          )}
+          onLoad={(event) => {
+            setLoaded(true);
+            onLoad?.(event);
+          }}
+          onError={(event) => {
+            setFailed(true);
+            onError?.(event);
+          }}
+        />
+      )}
     </>
   );
 

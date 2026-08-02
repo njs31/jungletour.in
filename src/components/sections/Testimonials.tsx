@@ -19,7 +19,7 @@ export default function Testimonials() {
           <SectionHeader
             eyebrow="Happy Trekkers"
             title="What Trekkers Say"
-            subtitle="50,000+ adventures completed. Here's what some of our community has to say."
+            subtitle="Stories from travelers who've trekked and explored with us."
             centered
           />
         </div>

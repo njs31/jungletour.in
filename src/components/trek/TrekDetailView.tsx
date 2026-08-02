@@ -63,10 +63,10 @@ export default function TrekDetailView({ trek }: TrekDetailViewProps) {
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1 text-xs font-semibold text-brand-text">
                   <Users size={14} />
-                  50,000+ Trekkers
+                  5000+ Travelers
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-surface px-3 py-1 text-xs font-semibold text-brand-text">
-                  Since 2017
+                  Since 2023
                 </span>
               </div>
 

@@ -35,6 +35,6 @@ export const faqs: FAQ[] = [
     id: "safety",
     question: "How safe are Jungle Tours & Treks treks?",
     answer:
-      "Every trek is led by trained, first-aid certified guides who know the trails. We cap batch sizes at around 20 people, carry first-aid kits and emergency contacts, and follow strict 'Leave No Trace' protocols. We have safely run 50,000+ trips since 2017.",
+      "Every trek is led by trained, first-aid certified guides who know the trails. We cap batch sizes at around 20 people, carry first-aid kits and emergency contacts, and follow strict 'Leave No Trace' protocols. We have safely run trips across the Western Ghats since 2023.",
   },
 ];

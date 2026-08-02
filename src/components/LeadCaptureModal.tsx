@@ -2,28 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import LoadingImage from "@/components/ui/LoadingImage";
 import LoadingOverlay from "@/components/ui/LoadingOverlay";
 import { X } from "lucide-react";
 
 const STORAGE_KEY = "jtt-lead-modal-dismissed";
-
-const galleryImages = [
-  {
-    src: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/adarsh-sudheesan-yADr4J5jzOM-unsplash_11zon.webp",
-    alt: "Hampi heritage temple at sunset",
-  },
-  {
-    src: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765892138399_1723637842674_2.webp",
-    alt: "Himalayan trek group in the snow",
-  },
-  {
-    src: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/testimage--munnar_11zon.webp",
-    alt: "Munnar tea plantation hills",
-  },
-];
-
-const countryCodes = ["+91", "+1", "+44", "+61", "+971", "+65"];
 
 export default function LeadCaptureModal() {
   const pathname = usePathname();
@@ -32,17 +14,16 @@ export default function LeadCaptureModal() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: "",
-    countryCode: "+91",
     phone: "",
     message: "",
-    expectingCallback: true,
   });
 
   useEffect(() => {
     if (pathname === "/under-deployment") return;
+    if (pathname?.startsWith("/admin")) return;
     if (sessionStorage.getItem(STORAGE_KEY)) return;
 
-    const timer = window.setTimeout(() => setIsOpen(true), 600);
+    const timer = window.setTimeout(() => setIsOpen(true), 1800);
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
@@ -72,8 +53,20 @@ export default function LeadCaptureModal() {
     event.preventDefault();
     setIsSubmitting(true);
 
-    // TODO: wire to Supabase form_submissions table
-    await new Promise((resolve) => setTimeout(resolve, 600));
+    try {
+      await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          message: form.message,
+          website: "",
+        }),
+      });
+    } catch {
+      // Still close gracefully; admin can follow up via WhatsApp.
+    }
 
     setSubmitted(true);
     setIsSubmitting(false);
@@ -84,11 +77,12 @@ export default function LeadCaptureModal() {
   }
 
   if (pathname === "/under-deployment") return null;
+  if (pathname?.startsWith("/admin")) return null;
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[100] flex items-end justify-center p-3 sm:items-center sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="lead-modal-title"
@@ -96,162 +90,94 @@ export default function LeadCaptureModal() {
       {isSubmitting && <LoadingOverlay label="Loading" />}
       <button
         type="button"
-        className="absolute inset-0 bg-black/55 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/50 backdrop-blur-[1px]"
         onClick={closeModal}
-        aria-label="Close lead form"
+        aria-label="Close enquiry form"
       />
 
-      <div className="relative z-10 flex w-full max-w-4xl max-h-[92vh] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:flex-row">
-        <button
-          type="button"
-          onClick={closeModal}
-          className="absolute right-3 top-3 z-20 rounded-full p-1.5 text-brand-text transition-colors hover:bg-surface hover:text-brand-text"
-          aria-label="Close"
-        >
-          <X size={22} strokeWidth={2.25} />
-        </button>
-
-        {/* Image gallery — desktop */}
-        <div className="hidden w-[38%] shrink-0 flex-col gap-2 bg-surface p-2 sm:flex">
-          {galleryImages.map((image) => (
-            <div key={image.src} className="relative min-h-0 flex-1 overflow-hidden rounded-xl">
-              <LoadingImage
-                src={image.src}
-                alt={image.alt}
-                fill
-                className="object-cover"
-                sizes="320px"
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
-          {/* Image strip — mobile */}
-          <div className="grid grid-cols-3 gap-1.5 p-2 sm:hidden">
-            {galleryImages.map((image) => (
-              <div key={image.src} className="relative aspect-[4/3] overflow-hidden rounded-lg">
-                <LoadingImage
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  className="object-cover"
-                  sizes="33vw"
-                  showLabel={false}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Form */}
-          <div className="flex flex-1 flex-col px-5 py-6 sm:px-8 sm:py-8">
-          <div className="mb-5 pr-8 sm:mb-6">
+      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+        <div className="flex items-start justify-between gap-3 border-b border-brand-border px-4 py-3.5">
+          <div>
             <h2
               id="lead-modal-title"
-              className="text-xl font-bold leading-snug text-navy sm:text-2xl"
+              className="font-display text-lg font-semibold text-navy"
             >
-              Looking for Your Next Adventure?
+              Quick enquiry
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-brand-muted sm:text-[0.95rem]">
-              Connect with our travel experts for exclusive itineraries and best
-              deals tailored to your unique travel experiences.
+            <p className="mt-0.5 text-xs text-brand-muted">
+              We&apos;ll call you back shortly.
             </p>
           </div>
+          <button
+            type="button"
+            onClick={closeModal}
+            className="rounded-full p-1.5 text-brand-muted transition-colors hover:bg-surface hover:text-brand-text"
+            aria-label="Close"
+          >
+            <X size={18} strokeWidth={2.25} />
+          </button>
+        </div>
 
+        <div className="px-4 py-4">
           {submitted ? (
-            <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
-              <p className="text-lg font-semibold text-navy">
-                Thank you! We&apos;ll be in touch soon.
-              </p>
-              <p className="mt-2 text-sm text-brand-muted">
-                Our team will reach out shortly.
-              </p>
+            <div className="py-6 text-center">
+              <p className="font-semibold text-navy">Thanks! We&apos;ll be in touch.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3">
               <div>
-                <label htmlFor="lead-name" className="mb-1.5 block text-sm font-medium text-brand-text">
+                <label htmlFor="lead-name" className="mb-1 block text-xs font-medium text-brand-text">
                   Name
                 </label>
                 <input
                   id="lead-name"
                   type="text"
                   required
-                  placeholder="Enter your Name"
+                  placeholder="Your name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full rounded-lg border border-brand-border px-3.5 py-2.5 text-sm text-brand-text outline-none transition-colors placeholder:text-brand-subtle focus:border-navy focus:ring-2 focus:ring-navy/20"
+                  className="w-full rounded-lg border border-brand-border px-3 py-2 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
                 />
               </div>
 
               <div>
-                <label htmlFor="lead-phone" className="mb-1.5 block text-sm font-medium text-brand-text">
-                  Phone Number
+                <label htmlFor="lead-phone" className="mb-1 block text-xs font-medium text-brand-text">
+                  Mobile
                 </label>
-                <div className="flex gap-2">
-                  <select
-                    id="lead-country-code"
-                    value={form.countryCode}
-                    onChange={(e) => setForm({ ...form, countryCode: e.target.value })}
-                    className="w-[5.5rem] shrink-0 rounded-lg border border-brand-border bg-white px-2 py-2.5 text-sm text-brand-text outline-none focus:border-navy focus:ring-2 focus:ring-navy/20"
-                    aria-label="Country code"
-                  >
-                    {countryCodes.map((code) => (
-                      <option key={code} value={code}>
-                        {code}
-                      </option>
-                    ))}
-                  </select>
-                  <input
-                    id="lead-phone"
-                    type="tel"
-                    required
-                    placeholder="Phone Number"
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="min-w-0 flex-1 rounded-lg border border-brand-border px-3.5 py-2.5 text-sm text-brand-text outline-none transition-colors placeholder:text-brand-subtle focus:border-navy focus:ring-2 focus:ring-navy/20"
-                  />
-                </div>
+                <input
+                  id="lead-phone"
+                  type="tel"
+                  required
+                  placeholder="10-digit mobile"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  className="w-full rounded-lg border border-brand-border px-3 py-2 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
+                />
               </div>
 
               <div>
-                <label htmlFor="lead-message" className="mb-1.5 block text-sm font-medium text-brand-text">
-                  Message
+                <label htmlFor="lead-message" className="mb-1 block text-xs font-medium text-brand-text">
+                  Interest (optional)
                 </label>
-                <textarea
+                <input
                   id="lead-message"
-                  rows={4}
-                  placeholder="Tell Us More"
+                  type="text"
+                  placeholder="e.g. Weekend trek, Gokarna"
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full resize-none rounded-lg border border-brand-border px-3.5 py-2.5 text-sm text-brand-text outline-none transition-colors placeholder:text-brand-subtle focus:border-navy focus:ring-2 focus:ring-navy/20"
+                  className="w-full rounded-lg border border-brand-border px-3 py-2 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
                 />
               </div>
-
-              <label className="flex cursor-pointer items-center gap-2.5">
-                <input
-                  type="checkbox"
-                  checked={form.expectingCallback}
-                  onChange={(e) =>
-                    setForm({ ...form, expectingCallback: e.target.checked })
-                  }
-                  className="size-4 rounded border-brand-border text-navy focus:ring-navy/30"
-                />
-                <span className="text-sm font-medium text-navy">
-                  Expecting a Callback
-                </span>
-              </label>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-2 w-full rounded-full bg-cta py-3 text-sm font-semibold text-white transition-colors hover:bg-cta-hover disabled:cursor-not-allowed disabled:opacity-70"
+                className="w-full rounded-full bg-cta py-2.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover disabled:opacity-70"
               >
-                {isSubmitting ? "Loading" : "Send"}
+                {isSubmitting ? "Sending…" : "Request callback"}
               </button>
             </form>
           )}
-          </div>
         </div>
       </div>
     </div>

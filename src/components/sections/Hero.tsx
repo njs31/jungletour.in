@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getResolvedImageUrl } from "@/lib/images/overrides";
 import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
 
@@ -10,48 +11,45 @@ export default async function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center scroll-mt-16"
-      style={{
-        backgroundImage: `url('${backgroundImage}')`,
-        backgroundSize: "cover",
-        backgroundPosition: "center 35%",
-        backgroundAttachment: "fixed",
-      }}
+      className="relative flex min-h-[88vh] items-end overflow-hidden scroll-mt-16 md:min-h-screen md:items-center"
     >
-      <div className="absolute inset-0 bg-black/50" />
+      <Image
+        src={backgroundImage}
+        alt="Western Ghats trail at golden hour"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[center_35%]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(244,124,44,0.25),transparent_50%)]" />
 
-      <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
-        <p className="text-sm font-semibold uppercase tracking-widest text-cta mb-4">
-          Expert-led adventures since 2017
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-16 pt-28 sm:px-6 md:pb-24 md:pt-20 lg:px-8">
+        <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-cta sm:text-sm">
+          Jungle Tours & Treks · Bangalore
         </p>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
-          Where Will the Mountains{" "}
-          <span className="text-cta">Take You?</span>
+        <h1 className="mt-4 max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
+          Trails that feel wild.
+          <span className="block text-cta">Trips that feel easy.</span>
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Expert-led treks and tours from Bangalore. From misty Western Ghats
-          ridgelines to sun-soaked coastal trails — curated for every kind of
-          adventurer.
+        <p className="mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+          Guided treks, weekend getaways, and sunrise climbs from Bangalore —
+          planned end to end so you can just show up and walk.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <a
             href="#packages"
-            className="bg-cta hover:bg-cta-hover text-white font-semibold px-8 py-3.5 rounded-full transition-colors text-sm sm:text-base"
+            className="inline-flex items-center justify-center rounded-full bg-cta px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover sm:text-base"
           >
-            Explore Packages
+            Explore Treks
           </a>
           <a
             href="#tours"
-            className="bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/40 text-white font-semibold px-8 py-3.5 rounded-full transition-colors text-sm sm:text-base"
+            className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:text-base"
           >
-            Browse Tours
+            Explore Tours
           </a>
         </div>
-      </div>
-
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/60 text-xs">
-        <span>Scroll to explore</span>
-        <div className="w-0.5 h-8 bg-white/30 animate-pulse" />
       </div>
     </section>
   );

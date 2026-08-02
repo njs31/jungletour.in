@@ -2,50 +2,50 @@ import SectionHeader from "@/components/ui/SectionHeader";
 
 const pillars = [
   {
-    emoji: "🏅",
-    title: "Certified Trek Leaders",
-    desc: "Every trek led by trained, first-aid certified guides who know the trails inside out.",
+    title: "Local trek leads",
+    desc: "Experienced guides who know the Western Ghats routes, weather, and safety protocols.",
   },
   {
-    emoji: "📋",
-    title: "All Permits Handled",
-    desc: "Forest permits, entry fees, accommodation — we handle every detail so you just show up.",
+    title: "Permits sorted",
+    desc: "Forest permits, stays, and logistics are handled — you pack light and show up ready.",
   },
   {
-    emoji: "👥",
-    title: "Small Batches",
-    desc: "Max 20 people per batch for a personal, safe, and immersive trekking experience.",
+    title: "Small groups",
+    desc: "Intimate batches so every trekker gets attention, pace support, and a better trail experience.",
   },
   {
-    emoji: "🌱",
-    title: "Leave No Trace",
-    desc: "We carry back every piece of waste and actively restore the trails we walk on.",
+    title: "Honest planning",
+    desc: "Clear inclusions, transparent pricing, and practical advice before you book.",
   },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section id="why-us" className="py-16 md:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="why-us" className="bg-white py-16 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <SectionHeader
             eyebrow="Why Jungle Tours & Treks"
-            title="Built for the Trail"
-            subtitle="Seven years of leading treks in the Western Ghats and beyond. We are not a marketplace — we are the team on the ground with you."
+            title="Built for real trail days"
+            subtitle="Since 2023 we've been crafting memorable treks and getaways from Bangalore — with care on the ground, not just a brochure online."
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {pillars.map((p) => (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {pillars.map((p, index) => (
             <div
               key={p.title}
-              className="p-6 rounded-2xl bg-cta-light border border-cta/20 hover:shadow-md transition-shadow"
+              className="border-l-2 border-cta/40 bg-surface px-5 py-6"
             >
-              <div className="text-4xl mb-4">{p.emoji}</div>
-              <h3 className="font-bold text-brand-text text-base mb-2">
+              <p className="font-display text-sm font-semibold text-cta">
+                0{index + 1}
+              </p>
+              <h3 className="mt-2 font-display text-lg font-semibold text-brand-text">
                 {p.title}
               </h3>
-              <p className="text-sm text-brand-muted leading-relaxed">{p.desc}</p>
+              <p className="mt-2 text-sm leading-relaxed text-brand-muted">
+                {p.desc}
+              </p>
             </div>
           ))}
         </div>

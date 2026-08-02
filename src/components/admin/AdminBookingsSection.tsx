@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { listBookingInquiries, type BookingInquiry } from "@/lib/bookings";
+import type { BookingInquiry } from "@/lib/bookings";
 import AdminBookingCard from "@/components/admin/AdminMobileCards";
 
 function formatSubmittedAt(value: string) {
@@ -25,9 +25,18 @@ function formatSubmittedShort(value: string) {
   });
 }
 
-export default async function AdminBookingsSection() {
-  const bookings = await listBookingInquiries();
+function customerWhatsApp(booking: BookingInquiry) {
+  const message = `Hi ${booking.name}, thanks for enquiring about ${booking.trip_title} with Jungle Tours & Treks.`;
+  return `https://wa.me/91${booking.phone}?text=${encodeURIComponent(message)}`;
+}
 
+interface AdminBookingsSectionProps {
+  bookings: BookingInquiry[];
+}
+
+export default function AdminBookingsSection({
+  bookings,
+}: AdminBookingsSectionProps) {
   return (
     <section
       id="bookings"
@@ -35,9 +44,11 @@ export default async function AdminBookingsSection() {
     >
       <div className="flex flex-col gap-3 border-b border-brand-border bg-surface/80 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
         <div>
-          <h2 className="text-sm font-semibold text-brand-text">Booking submissions</h2>
+          <h2 className="text-sm font-semibold text-brand-text">
+            Enquiries & bookings
+          </h2>
           <p className="mt-0.5 text-xs text-brand-muted">
-            Enquiries from Book Now on trek pages
+            From homepage enquiry form and trek Book Now
           </p>
         </div>
         <span className="inline-flex w-fit items-center rounded-full bg-cta-light px-3 py-1 text-xs font-semibold text-cta-hover ring-1 ring-cta/10">
@@ -47,16 +58,17 @@ export default async function AdminBookingsSection() {
 
       {bookings.length === 0 ? (
         <p className="px-4 py-10 text-center text-sm text-brand-muted sm:px-5">
-          No booking submissions yet.
+          No enquiries yet. New leads will appear here automatically.
         </p>
       ) : (
         <>
           <div className="space-y-3 p-4 md:hidden">
-            {bookings.map((booking: BookingInquiry) => (
+            {bookings.map((booking) => (
               <AdminBookingCard
                 key={booking.id}
                 booking={booking}
                 submittedLabel={formatSubmittedShort(booking.created_at)}
+                whatsappHref={customerWhatsApp(booking)}
               />
             ))}
           </div>
@@ -72,15 +84,18 @@ export default async function AdminBookingsSection() {
                     Mobile
                   </th>
                   <th className="px-5 py-3 text-left font-semibold text-brand-text">
-                    Trip
+                    Interest
                   </th>
                   <th className="px-5 py-3 text-left font-semibold text-brand-text">
                     Submitted
                   </th>
+                  <th className="px-5 py-3 text-left font-semibold text-brand-text">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {bookings.map((booking: BookingInquiry) => (
+                {bookings.map((booking) => (
                   <tr
                     key={booking.id}
                     className="border-b border-brand-border last:border-0 hover:bg-surface/50"
@@ -89,12 +104,7 @@ export default async function AdminBookingsSection() {
                       {booking.name}
                     </td>
                     <td className="px-5 py-3.5 text-brand-muted">
-                      <a
-                        href={`tel:+91${booking.phone}`}
-                        className="hover:text-cta"
-                      >
-                        +91 {booking.phone}
-                      </a>
+                      +91 {booking.phone}
                     </td>
                     <td className="px-5 py-3.5 text-brand-text">
                       {booking.trip_slug ? (
@@ -110,6 +120,24 @@ export default async function AdminBookingsSection() {
                     </td>
                     <td className="whitespace-nowrap px-5 py-3.5 text-brand-muted">
                       {formatSubmittedAt(booking.created_at)}
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <div className="flex gap-2">
+                        <a
+                          href={`tel:+91${booking.phone}`}
+                          className="rounded-lg bg-navy px-3 py-1.5 text-xs font-semibold text-white"
+                        >
+                          Call
+                        </a>
+                        <a
+                          href={customerWhatsApp(booking)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-semibold text-white"
+                        >
+                          WhatsApp
+                        </a>
+                      </div>
                     </td>
                   </tr>
                 ))}

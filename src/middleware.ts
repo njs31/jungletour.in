@@ -1,7 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+/** Set SITE_MAINTENANCE=true to show the maintenance page to visitors. */
 function isMaintenanceEnabled() {
-  return process.env.SITE_MAINTENANCE !== "false";
+  return process.env.SITE_MAINTENANCE === "true";
 }
 
 function isAllowedDuringMaintenance(pathname: string) {
