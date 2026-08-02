@@ -35,7 +35,7 @@ export default function Header() {
             }}
           >
             <LoadingImage
-              src="/logo.png"
+              src="/logo.webp"
               alt="Jungle Tours & Treks"
               width={40}
               height={40}

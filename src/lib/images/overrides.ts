@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
@@ -43,9 +44,9 @@ async function deleteFileImageOverride(imageKey: string) {
   await writeFile(STORE_PATH, JSON.stringify(all, null, 2), "utf8");
 }
 
-export async function fetchAllImageOverrides(): Promise<
+export const fetchAllImageOverrides = cache(async (): Promise<
   Record<string, ImageOverride>
-> {
+> => {
   const fileOverrides = await readFileImageOverrides();
 
   try {
@@ -62,7 +63,7 @@ export async function fetchAllImageOverrides(): Promise<
   } catch {
     return fileOverrides;
   }
-}
+});
 
 export async function getResolvedImageUrl(key: string, defaultUrl: string) {
   const overrides = await fetchAllImageOverrides();

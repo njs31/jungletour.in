@@ -21,7 +21,7 @@ export default function Footer() {
           <div>
             <Link href="/#home" className="flex items-center gap-2 mb-4">
               <LoadingImage
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Jungle Tours & Treks"
                 width={40}
                 height={40}

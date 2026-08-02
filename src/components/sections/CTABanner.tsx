@@ -1,17 +1,17 @@
 import Image from "next/image";
-import { getResolvedImageUrl } from "@/lib/images/overrides";
 import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
 import {
   CONTACT_PHONE_TEL,
   CONTACT_WHATSAPP_URL,
 } from "@/lib/contact";
 
-export default async function CTABanner() {
-  const backgroundImage = await getResolvedImageUrl(
-    "site:cta-banner",
-    SITE_IMAGE_DEFAULTS.ctaBanner
-  );
+interface CTABannerProps {
+  backgroundImage?: string;
+}
 
+export default function CTABanner({
+  backgroundImage = SITE_IMAGE_DEFAULTS.ctaBanner,
+}: CTABannerProps) {
   return (
     <section className="relative overflow-hidden py-20">
       <Image

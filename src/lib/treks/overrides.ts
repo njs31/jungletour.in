@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { TrekCard, TourCard, HimalayanTrek } from "@/types";
@@ -20,7 +21,6 @@ import { weekendTours } from "@/data/tours";
 import { himalayanTreks } from "@/data/himalayan";
 import {
   fetchAllImageOverrides,
-  getTripCoverImage,
   getTripGalleryImages,
 } from "@/lib/images/overrides";
 
@@ -65,9 +65,9 @@ function departuresFromOverride(
   }));
 }
 
-export async function fetchAllTrekOverrides(): Promise<
+export const fetchAllTrekOverrides = cache(async (): Promise<
   Record<string, TrekOverride>
-> {
+> => {
   const fileOverrides = await readFileOverrides();
 
   try {
@@ -83,7 +83,7 @@ export async function fetchAllTrekOverrides(): Promise<
   } catch {
     return fileOverrides;
   }
-}
+});
 
 export async function fetchTrekOverride(
   trekId: string
@@ -190,48 +190,39 @@ export async function getPackagesWithOverrides(packages: TrekCard[]) {
   const overrides = await fetchAllTrekOverrides();
   const imageOverrides = await fetchAllImageOverrides();
 
-  return Promise.all(
-    packages
-      .filter((pkg) => isTripActive(overrides[pkg.id]))
-      .map(async (pkg) => {
-        const cover =
-          imageOverrides[`trip:${pkg.id}:cover`]?.url ||
-          (await getTripCoverImage(pkg.id, pkg.image));
-        return applyOverrideToCard(pkg, overrides[pkg.id] ?? null, cover);
-      })
-  );
+  return packages
+    .filter((pkg) => isTripActive(overrides[pkg.id]))
+    .map((pkg) => {
+      const cover =
+        imageOverrides[`trip:${pkg.id}:cover`]?.url || pkg.image;
+      return applyOverrideToCard(pkg, overrides[pkg.id] ?? null, cover);
+    });
 }
 
 export async function getToursWithOverrides() {
   const overrides = await fetchAllTrekOverrides();
   const imageOverrides = await fetchAllImageOverrides();
 
-  return Promise.all(
-    weekendTours
-      .filter((tour) => isTripActive(overrides[tour.id]))
-      .map(async (tour) => {
-        const cover =
-          imageOverrides[`trip:${tour.id}:cover`]?.url ||
-          (await getTripCoverImage(tour.id, tour.image));
-        return applyOverrideToTour(tour, overrides[tour.id] ?? null, cover);
-      })
-  );
+  return weekendTours
+    .filter((tour) => isTripActive(overrides[tour.id]))
+    .map((tour) => {
+      const cover =
+        imageOverrides[`trip:${tour.id}:cover`]?.url || tour.image;
+      return applyOverrideToTour(tour, overrides[tour.id] ?? null, cover);
+    });
 }
 
 export async function getHimalayanWithOverrides() {
   const overrides = await fetchAllTrekOverrides();
   const imageOverrides = await fetchAllImageOverrides();
 
-  return Promise.all(
-    himalayanTreks
-      .filter((trek) => isTripActive(overrides[trek.id]))
-      .map(async (trek) => {
-        const cover =
-          imageOverrides[`trip:${trek.id}:cover`]?.url ||
-          (await getTripCoverImage(trek.id, trek.image));
-        return applyOverrideToHimalayan(trek, overrides[trek.id] ?? null, cover);
-      })
-  );
+  return himalayanTreks
+    .filter((trek) => isTripActive(overrides[trek.id]))
+    .map((trek) => {
+      const cover =
+        imageOverrides[`trip:${trek.id}:cover`]?.url || trek.image;
+      return applyOverrideToHimalayan(trek, overrides[trek.id] ?? null, cover);
+    });
 }
 
 function buildUpsertPayload(

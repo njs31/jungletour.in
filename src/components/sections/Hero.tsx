@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { getResolvedImageUrl } from "@/lib/images/overrides";
 import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
 
-export default async function Hero() {
-  const backgroundImage = await getResolvedImageUrl(
-    "site:hero",
-    SITE_IMAGE_DEFAULTS.hero
-  );
+interface HeroProps {
+  backgroundImage?: string;
+}
 
+export default function Hero({
+  backgroundImage = SITE_IMAGE_DEFAULTS.hero,
+}: HeroProps) {
   return (
     <section
       id="home"

@@ -19,7 +19,7 @@ export default function LoadingAnimation({
   label = "Loading",
   showLabel = true,
   size = "md",
-  imageSrc = "/logo.png",
+  imageSrc = "/logo.webp",
   className,
 }: LoadingAnimationProps) {
   const dimensions = sizeMap[size];
