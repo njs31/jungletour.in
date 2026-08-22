@@ -6,7 +6,7 @@ export const blogPosts: BlogPost[] = [
     title: "Things to Do in Bangalore",
     excerpt:
       "From sunrise treks to street food walks — the ultimate adventure guide for Bangalore.",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1764830428034_1748597836428_bangalore.webp",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
     category: "City Guide",
   },
   {
@@ -14,7 +14,7 @@ export const blogPosts: BlogPost[] = [
     title: "Places to Visit in Wayanad",
     excerpt:
       "Explore misty peaks, ancient caves, and wildlife sanctuaries in Kerala's green paradise.",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765876202465_ajmal-shams-G-ODdr13X6s-unsplash.webp",
+    image: "https://images.unsplash.com/photo-1590053102434-777093d39589?auto=format&fit=crop&w=800&q=80",
     category: "Travel Guide",
   },
   {
@@ -22,7 +22,7 @@ export const blogPosts: BlogPost[] = [
     title: "10 Amazing Reasons to Visit Munnar",
     excerpt:
       "Tea plantations, rolling hills, and cool mountain air — why Munnar belongs on your list.",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1717656288947_munnar-4769654_1920.jpg",
+    image: "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=800&q=80",
     category: "Destination",
   },
   {
@@ -30,7 +30,7 @@ export const blogPosts: BlogPost[] = [
     title: "Top 35 Attractions in Chikmagalur",
     excerpt:
       "Coffee estates, misty peaks, and hidden waterfalls in Karnataka's hill country.",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1719989094531_35%2520attractions%2520chikmagalur%2520cover%2520photo.jpg",
+    image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=800&q=80",
     category: "Destination",
   },
 ];

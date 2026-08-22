@@ -10,7 +10,7 @@ export const twoNightPackages: TrekCard[] = [
     price: "₹3,999",
     badge: "Trending",
     badgeEmoji: "🔥",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765275617176_compressed_1200_auto_800kb_highq.webp",
+    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=80",
     category: "2nights",
   },
   {
@@ -22,7 +22,7 @@ export const twoNightPackages: TrekCard[] = [
     price: "₹3,999",
     badge: "Most Popular",
     badgeEmoji: "⭐",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765279807277_1722845570587_22.webp",
+    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
     category: "2nights",
   },
   {
@@ -34,7 +34,7 @@ export const twoNightPackages: TrekCard[] = [
     price: "₹3,999",
     badge: "Highest Peak",
     badgeEmoji: "🏔",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765285774067_IMG20211128133714_11zon_(2).webp",
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
     category: "2nights",
   },
   {
@@ -46,7 +46,7 @@ export const twoNightPackages: TrekCard[] = [
     price: "₹3,999",
     badge: "Monsoon Pick",
     badgeEmoji: "🌧",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/testimage--27_11zon[1].webp",
+    image: "https://images.unsplash.com/photo-1511497584788-876761c119ef?auto=format&fit=crop&w=1200&q=80",
     category: "2nights",
   },
 ];
@@ -61,7 +61,7 @@ export const weekendEscapes: TrekCard[] = [
     price: "₹3,999",
     badge: "Coastal",
     badgeEmoji: "🌊",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765446284676_1723183968667_GOK_2080_(1).webp",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
     category: "weekend",
   },
   {
@@ -73,7 +73,7 @@ export const weekendEscapes: TrekCard[] = [
     price: "₹3,999",
     badge: "Trending",
     badgeEmoji: "🔥",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765803734574_1722410903601_1.webp",
+    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
     category: "weekend",
   },
   {
@@ -85,7 +85,7 @@ export const weekendEscapes: TrekCard[] = [
     price: "₹3,999",
     badge: "Waterfall",
     badgeEmoji: "💧",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765280911992_1722340692806_11.webp",
+    image: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=80",
     category: "weekend",
   },
   {
@@ -97,7 +97,7 @@ export const weekendEscapes: TrekCard[] = [
     price: "₹2,999",
     badge: "Forest",
     badgeEmoji: "🌿",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765284648362_1722344258016_1_E_(1).webp",
+    image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
     category: "weekend",
   },
 ];
@@ -112,7 +112,7 @@ export const sunriseTreks: TrekCard[] = [
     price: "₹1,499",
     badge: "Night Trek",
     badgeEmoji: "🌙",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765450673756_skandagiri_-_Copy.webp",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
     category: "sunrise",
   },
   {
@@ -124,7 +124,7 @@ export const sunriseTreks: TrekCard[] = [
     price: "₹699",
     badge: "Sunrise",
     badgeEmoji: "🌅",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765267578245_WhatsApp_Image_2023-11-17_at_3.51.00_AM_11zon_(1).webp",
+    image: "https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?auto=format&fit=crop&w=1200&q=80",
     category: "sunrise",
   },
   {
@@ -136,7 +136,7 @@ export const sunriseTreks: TrekCard[] = [
     price: "₹3,999",
     badge: "Popular",
     badgeEmoji: "⭐",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765367044606_testimage--Nishani_betta_peak_11zon.webp",
+    image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1200&q=80",
     category: "sunrise",
   },
   {
@@ -148,7 +148,7 @@ export const sunriseTreks: TrekCard[] = [
     price: "₹3,999",
     badge: "Monsoon Pick",
     badgeEmoji: "🌧",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1765880885403_1722585162299_2_(1).webp",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
     category: "sunrise",
   },
 ];

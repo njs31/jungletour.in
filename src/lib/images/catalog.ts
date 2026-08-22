@@ -11,9 +11,9 @@ import { trekDetailsBySlug } from "@/data/treks/registry";
 import type { ImageSlot } from "@/types/image-override";
 
 export const SITE_IMAGE_DEFAULTS = {
-  hero: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=80",
+  hero: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80",
   ctaBanner:
-    "https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=2000&q=80",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2000&q=80",
 } as const;
 
 export function buildImageCatalog(): ImageSlot[] {

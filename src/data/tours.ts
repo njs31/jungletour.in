@@ -9,7 +9,7 @@ export const weekendTours: TourCard[] = [
     price: "₹4,999",
     badge: "Forest",
     badgeEmoji: "🌿",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1764229438095_testimage--wayanad_(2)-optimized.webp",
+    image: "https://images.unsplash.com/photo-1590053102434-777093d39589?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "kodaikanal",
@@ -19,7 +19,7 @@ export const weekendTours: TourCard[] = [
     price: "₹5,999",
     badge: "Hill Station",
     badgeEmoji: "⛰",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/testimage--69_39_11zon.webp",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "munnar",
@@ -29,7 +29,7 @@ export const weekendTours: TourCard[] = [
     price: "₹6,499",
     badge: "Tea Trails",
     badgeEmoji: "🍵",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/testimage--munnar_11zon.webp",
+    image: "https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "chikmagalur",
@@ -39,7 +39,7 @@ export const weekendTours: TourCard[] = [
     price: "₹4,999",
     badge: "Coffee Trail",
     badgeEmoji: "☕",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/siri_11zon.webp",
+    image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "hampi",
@@ -49,7 +49,7 @@ export const weekendTours: TourCard[] = [
     price: "₹4,999",
     badge: "Heritage",
     badgeEmoji: "🏛",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/adarsh-sudheesan-yADr4J5jzOM-unsplash_11zon.webp",
+    image: "https://images.unsplash.com/photo-1600100397608-f090742f404d?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "ooty",
@@ -59,7 +59,7 @@ export const weekendTours: TourCard[] = [
     price: "₹5,499",
     badge: "Hill Station",
     badgeEmoji: "🌸",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/IMG20220410121642_11zon.webp",
+    image: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "coorg",
@@ -69,7 +69,7 @@ export const weekendTours: TourCard[] = [
     price: "₹4,999",
     badge: "Nature",
     badgeEmoji: "🌿",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/1723549709967_Shared%20from%20Lightroom%20mobile%20(1).jpg",
+    image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "pondicherry",
@@ -79,7 +79,7 @@ export const weekendTours: TourCard[] = [
     price: "₹5,499",
     badge: "Coastal",
     badgeEmoji: "🌊",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/testimage--pondi_11zon.webp",
+    image: "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "gokarna-murudeshwar",
@@ -89,7 +89,7 @@ export const weekendTours: TourCard[] = [
     price: "₹5,499",
     badge: "Coastal",
     badgeEmoji: "🌊",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/testimage--tharun-kumar-u-uY0n8FV_ds0-unsplash_11zon.webp",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "udupi-mangalore",
@@ -99,6 +99,6 @@ export const weekendTours: TourCard[] = [
     price: "₹6,999",
     badge: "Coastal",
     badgeEmoji: "🌴",
-    image: "https://bpu-images-v1.s3.eu-north-1.amazonaws.com/uploads/island_11zon.webp",
+    image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80",
   },
 ];

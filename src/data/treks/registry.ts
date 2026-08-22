@@ -48,9 +48,9 @@ const allPackages: TrekCard[] = [
 
 function brandText(value: string) {
   return value
-    .replace(/Backpackers United/gi, "Jungle Tours & Treks")
-    .replace(/backpackersunited\.in/gi, "jungletoursandtreks.in")
-    .replace(/info@backpackersunited\.in/gi, "info@jungletoursandtreks.in");
+    .replace(/Backpackers United/gi, "JungleTour")
+    .replace(/backpackersunited\.in/gi, "jungletour.in")
+    .replace(/info@backpackersunited\.in/gi, "info@jungletour.in");
 }
 
 function cleanList(items: string[]) {
