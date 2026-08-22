@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
 import {
   CONTACT_PHONE_TEL,
@@ -13,13 +12,12 @@ export default function CTABanner({
   backgroundImage = SITE_IMAGE_DEFAULTS.ctaBanner,
 }: CTABannerProps) {
   return (
-    <section className="relative overflow-hidden py-20">
-      <Image
+    <section className="relative overflow-hidden py-20 bg-navy">
+      <img
         src={backgroundImage}
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover"
+        alt="Trail landscape"
+        className="absolute inset-0 h-full w-full object-cover"
+        loading="lazy"
       />
       <div className="absolute inset-0 bg-navy/88" />
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center text-white sm:px-6 lg:px-8">
@@ -32,17 +30,17 @@ export default function CTABanner({
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <a
             href={CONTACT_PHONE_TEL}
-            className="rounded-full bg-cta px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover sm:text-base"
+            className="rounded-full bg-cta px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover sm:text-base shadow-lg"
           >
-            Call
+            Call 9980602437
           </a>
           <a
             href={CONTACT_WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border-2 border-white px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:text-base"
+            className="rounded-full border-2 border-white px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:text-base shadow-lg"
           >
-            WhatsApp
+            WhatsApp Us
           </a>
         </div>
       </div>

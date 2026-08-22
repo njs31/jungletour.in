@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
 
 interface HeroProps {
@@ -11,15 +10,13 @@ export default function Hero({
   return (
     <section
       id="home"
-      className="relative flex min-h-[88vh] items-end overflow-hidden scroll-mt-16 md:min-h-screen md:items-center"
+      className="relative flex min-h-[88vh] items-end overflow-hidden scroll-mt-16 md:min-h-screen md:items-center bg-navy"
     >
-      <Image
+      <img
         src={backgroundImage}
-        alt="Western Ghats trail at golden hour"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[center_35%]"
+        alt="Western Ghats trail background"
+        className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
+        loading="eager"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(244,124,44,0.25),transparent_50%)]" />
@@ -39,13 +36,13 @@ export default function Hero({
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <a
             href="#packages"
-            className="inline-flex items-center justify-center rounded-full bg-cta px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover sm:text-base"
+            className="inline-flex items-center justify-center rounded-full bg-cta px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover sm:text-base shadow-lg"
           >
             Explore Treks
           </a>
           <a
             href="#tours"
-            className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:text-base"
+            className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:text-base shadow-lg"
           >
             Explore Tours
           </a>

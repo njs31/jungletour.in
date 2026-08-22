@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image, { type ImageProps } from "next/image";
+import Image, { type ImageProps } from "@/shims/next-image";
 import { cn } from "@/lib/utils";
 
 type LoadingImageProps = ImageProps & {
@@ -16,6 +16,8 @@ export default function LoadingImage({
   fill,
   width,
   height,
+  src,
+  alt,
   ...props
 }: LoadingImageProps) {
   const [failed, setFailed] = useState(false);
@@ -23,7 +25,7 @@ export default function LoadingImage({
   if (failed) {
     if (fill) {
       return (
-        <div className="absolute inset-0 bg-gradient-to-br from-navy/20 to-surface" />
+        <div className="absolute inset-0 bg-gradient-to-br from-navy/40 to-surface" />
       );
     }
     return (
@@ -37,10 +39,12 @@ export default function LoadingImage({
   const image = (
     <Image
       {...props}
+      src={src}
+      alt={alt}
       fill={fill}
       width={width}
       height={height}
-      className={cn(className, "bg-surface")}
+      className={cn(className)}
       onLoad={onLoad}
       onError={(event) => {
         setFailed(true);

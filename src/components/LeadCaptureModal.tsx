@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import LoadingOverlay from "@/components/ui/LoadingOverlay";
-import { X } from "lucide-react";
+import { X, Phone, MessageSquare } from "lucide-react";
+import { CONTACT_PHONE_TEL, CONTACT_WHATSAPP_URL } from "@/lib/contact";
 
 const STORAGE_KEY = "jtt-lead-modal-dismissed";
 
@@ -23,7 +24,7 @@ export default function LeadCaptureModal() {
     if (pathname?.startsWith("/admin")) return;
     if (sessionStorage.getItem(STORAGE_KEY)) return;
 
-    const timer = window.setTimeout(() => setIsOpen(true), 1800);
+    const timer = window.setTimeout(() => setIsOpen(true), 2500);
     return () => window.clearTimeout(timer);
   }, [pathname]);
 
@@ -65,7 +66,7 @@ export default function LeadCaptureModal() {
         }),
       });
     } catch {
-      // Still close gracefully; admin can follow up via WhatsApp.
+      // Still close gracefully
     }
 
     setSubmitted(true);
@@ -82,100 +83,118 @@ export default function LeadCaptureModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-end justify-center p-3 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="lead-modal-title"
     >
-      {isSubmitting && <LoadingOverlay label="Loading" />}
+      {isSubmitting && <LoadingOverlay label="Submitting..." />}
       <button
         type="button"
-        className="absolute inset-0 bg-black/50 backdrop-blur-[1px]"
+        className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
         onClick={closeModal}
         aria-label="Close enquiry form"
       />
 
-      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
-        <div className="flex items-start justify-between gap-3 border-b border-brand-border px-4 py-3.5">
+      <div className="relative z-10 w-full max-w-xs sm:max-w-sm overflow-hidden rounded-2xl bg-white shadow-2xl border border-brand-border">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-brand-border px-4 py-3 bg-surface">
           <div>
             <h2
               id="lead-modal-title"
-              className="font-display text-lg font-semibold text-navy"
+              className="font-display text-base font-bold text-navy"
             >
-              Quick enquiry
+              Quick Enquiry
             </h2>
-            <p className="mt-0.5 text-xs text-brand-muted">
-              We&apos;ll call you back shortly.
+            <p className="text-[11px] text-brand-muted">
+              Get details & package info
             </p>
           </div>
           <button
             type="button"
             onClick={closeModal}
-            className="rounded-full p-1.5 text-brand-muted transition-colors hover:bg-surface hover:text-brand-text"
+            className="rounded-full p-1 text-brand-muted transition-colors hover:bg-gray-200 hover:text-brand-text"
             aria-label="Close"
           >
-            <X size={18} strokeWidth={2.25} />
+            <X size={16} strokeWidth={2.25} />
           </button>
         </div>
 
-        <div className="px-4 py-4">
+        {/* Form Body */}
+        <div className="p-4">
           {submitted ? (
-            <div className="py-6 text-center">
-              <p className="font-semibold text-navy">Thanks! We&apos;ll be in touch.</p>
+            <div className="py-4 text-center">
+              <p className="font-bold text-green-700 text-sm">Thank You!</p>
+              <p className="mt-1 text-xs text-brand-muted">
+                Our trip advisor will call you shortly.
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3">
               <div>
-                <label htmlFor="lead-name" className="mb-1 block text-xs font-medium text-brand-text">
+                <label htmlFor="lead-name" className="mb-1 block text-[11px] font-semibold uppercase text-brand-muted">
                   Name
                 </label>
                 <input
                   id="lead-name"
                   type="text"
                   required
-                  placeholder="Your name"
+                  placeholder="Your full name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full rounded-lg border border-brand-border px-3 py-2 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
+                  className="w-full rounded-lg border border-brand-border px-3 py-1.5 text-xs outline-none focus:border-cta focus:ring-1 focus:ring-cta"
                 />
               </div>
 
               <div>
-                <label htmlFor="lead-phone" className="mb-1 block text-xs font-medium text-brand-text">
-                  Mobile
+                <label htmlFor="lead-phone" className="mb-1 block text-[11px] font-semibold uppercase text-brand-muted">
+                  Mobile Number
                 </label>
                 <input
                   id="lead-phone"
                   type="tel"
                   required
-                  placeholder="10-digit mobile"
+                  placeholder="10-digit mobile number"
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  className="w-full rounded-lg border border-brand-border px-3 py-2 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
+                  className="w-full rounded-lg border border-brand-border px-3 py-1.5 text-xs outline-none focus:border-cta focus:ring-1 focus:ring-cta"
                 />
               </div>
 
               <div>
-                <label htmlFor="lead-message" className="mb-1 block text-xs font-medium text-brand-text">
-                  Interest (optional)
+                <label htmlFor="lead-message" className="mb-1 block text-[11px] font-semibold uppercase text-brand-muted">
+                  Trek / Tour Interest (Optional)
                 </label>
                 <input
                   id="lead-message"
                   type="text"
-                  placeholder="e.g. Weekend trek, Gokarna"
+                  placeholder="e.g. Kudremukh, Gokarna"
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full rounded-lg border border-brand-border px-3 py-2 text-sm outline-none focus:border-cta focus:ring-2 focus:ring-cta/20"
+                  className="w-full rounded-lg border border-brand-border px-3 py-1.5 text-xs outline-none focus:border-cta focus:ring-1 focus:ring-cta"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-full bg-cta py-2.5 text-sm font-semibold text-white transition-colors hover:bg-cta-hover disabled:opacity-70"
+                className="w-full rounded-full bg-cta py-2 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-cta-hover disabled:opacity-70 shadow-sm"
               >
-                {isSubmitting ? "Sending…" : "Request callback"}
+                {isSubmitting ? "Sending..." : "Request Callback"}
               </button>
+
+              <div className="pt-2 border-t border-brand-border flex items-center justify-between text-[11px] text-brand-muted">
+                <span>Or reach us directly:</span>
+                <div className="flex gap-2">
+                  <a href={CONTACT_PHONE_TEL} className="text-navy font-semibold hover:underline flex items-center gap-0.5">
+                    <Phone size={10} /> Call
+                  </a>
+                  <span>·</span>
+                  <a href={CONTACT_WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="text-green-600 font-semibold hover:underline flex items-center gap-0.5">
+                    <MessageSquare size={10} /> WhatsApp
+                  </a>
+                </div>
+              </div>
             </form>
           )}
         </div>
