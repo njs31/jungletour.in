@@ -6,9 +6,9 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   output: "server",
   site: "https://jungletour.in",
-  session: false,
   adapter: cloudflare({
     imageService: "passthrough",
+    experimentalRemoteHeaders: false,
   }),
   integrations: [react()],
   vite: {
