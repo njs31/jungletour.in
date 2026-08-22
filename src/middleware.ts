@@ -1,9 +1,9 @@
 import { defineMiddleware } from "astro:middleware";
 import { getEnv } from "@/lib/env";
 
-/** Maintenance is ON by default. Set SITE_MAINTENANCE=false to launch the full site. */
+/** Maintenance is OFF by default. Set SITE_MAINTENANCE=true to enable maintenance mode. */
 function isMaintenanceEnabled() {
-  return getEnv("SITE_MAINTENANCE") !== "false";
+  return getEnv("SITE_MAINTENANCE") === "true";
 }
 
 function isAllowedDuringMaintenance(pathname: string) {
