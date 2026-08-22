@@ -1,0 +1,57 @@
+---
+import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/fraunces";
+import "../styles/globals.css";
+import { cn } from "@/lib/utils";
+import LeadCaptureModal from "@/components/LeadCaptureModal";
+import HashScroll from "@/components/layout/HashScroll";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title = "Jungle Tours & Treks: Treks & Weekend Tours from Bangalore",
+  description = "Guided treks, weekend getaways, and sunrise climbs from Bangalore. Curated Western Ghats adventures since 2023.",
+  ogImage,
+  noIndex = false,
+} = Astro.props;
+
+const fontVars = [
+  "--font-sans: 'DM Sans Variable', ui-sans-serif, system-ui, sans-serif",
+  "--font-display: 'Fraunces Variable', Georgia, serif",
+].join("; ");
+---
+
+<!doctype html>
+<html lang="en" style={fontVars} class={cn("font-sans")}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="treks, trekking bangalore, western ghats, weekend tours, hiking"
+    />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta
+      property="og:description"
+      content={description.length > 150 ? `${description.slice(0, 147)}...` : description}
+    />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+  </head>
+  <body class="bg-white antialiased text-brand-text">
+    <HashScroll client:load />
+    <slot />
+    <LeadCaptureModal client:idle />
+  </body>
+</html>

@@ -1,0 +1,26 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import TrekDetailView from "@/components/trek/TrekDetailView";
+import { getTrekBySlugWithOverrides } from "@/lib/treks/overrides";
+
+const { slug } = Astro.params;
+const trek = slug ? await getTrekBySlugWithOverrides(slug) : null;
+
+if (!trek) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout
+  title={trek.title}
+  description={trek.metaDescription}
+  ogImage={trek.images[0]?.src}
+>
+  <Header client:load />
+  <main>
+    <TrekDetailView client:load trek={trek} />
+  </main>
+  <Footer />
+</Layout>

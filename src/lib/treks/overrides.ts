@@ -1,4 +1,4 @@
-import { cache } from "react";
+import { getEnv } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { TrekCard, TourCard, HimalayanTrek } from "@/types";
@@ -65,9 +65,9 @@ function departuresFromOverride(
   }));
 }
 
-export const fetchAllTrekOverrides = cache(async (): Promise<
+async function fetchAllTrekOverridesImpl(): Promise<
   Record<string, TrekOverride>
-> => {
+> {
   const fileOverrides = await readFileOverrides();
 
   try {
@@ -83,7 +83,13 @@ export const fetchAllTrekOverrides = cache(async (): Promise<
   } catch {
     return fileOverrides;
   }
-});
+}
+
+export async function fetchAllTrekOverrides(): Promise<
+  Record<string, TrekOverride>
+> {
+  return fetchAllTrekOverridesImpl();
+}
 
 export async function fetchTrekOverride(
   trekId: string
@@ -313,7 +319,7 @@ export async function upsertTrekOverride(
   const fileFallback = () =>
     writeFileOverride(trekId, payloadToOverride(trekId, payload));
 
-  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (getEnv("SUPABASE_SERVICE_ROLE_KEY")) {
     try {
       return await upsertViaServiceRole(payload);
     } catch {

@@ -1,0 +1,64 @@
+import type { APIRoute } from "astro";
+import { requireAdminRequest } from "@/lib/admin-auth";
+import { getImageSlotByKey } from "@/lib/images/catalog";
+import {
+  fetchAllImageOverrides,
+  upsertImageOverride,
+} from "@/lib/images/overrides";
+import {
+  deleteImageFromStorage,
+  uploadImageToStorage,
+} from "@/lib/images/storage";
+
+export const POST: APIRoute = async ({ request }) => {
+  try {
+    requireAdminRequest(request);
+  } catch {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const formData = await request.formData();
+    const imageKey = String(formData.get("imageKey") ?? "").trim();
+    const file = formData.get("file");
+
+    if (!imageKey) {
+      return Response.json({ error: "imageKey is required" }, { status: 400 });
+    }
+
+    if (!(file instanceof File) || file.size === 0) {
+      return Response.json(
+        { error: "Image file is required" },
+        { status: 400 }
+      );
+    }
+
+    const slot = getImageSlotByKey(imageKey);
+    if (!slot) {
+      return Response.json({ error: "Unknown image slot" }, { status: 404 });
+    }
+
+    const existing = (await fetchAllImageOverrides())[imageKey];
+    const uploaded = await uploadImageToStorage(file, imageKey);
+
+    const saved = await upsertImageOverride({
+      imageKey,
+      url: uploaded.url,
+      alt: slot.defaultAlt,
+      storagePath: uploaded.storagePath,
+    });
+
+    if (existing?.storage_path && existing.storage_path !== uploaded.storagePath) {
+      try {
+        await deleteImageFromStorage(existing.storage_path);
+      } catch {
+        // Old file cleanup is best-effort.
+      }
+    }
+
+    return Response.json({ success: true, override: saved });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Upload failed";
+    return Response.json({ error: message }, { status: 500 });
+  }
+};

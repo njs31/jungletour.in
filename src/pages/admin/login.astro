@@ -1,0 +1,14 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LoginForm from "@/components/admin/LoginForm";
+---
+
+<Layout
+  title="Admin Sign In | Jungle Tours & Treks"
+  description="Admin sign in"
+  noIndex={true}
+>
+  <div class="flex min-h-screen items-center justify-center bg-surface px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))]">
+    <LoginForm client:load />
+  </div>
+</Layout>

@@ -1,0 +1,169 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import Hero from "@/components/sections/Hero";
+import Stats from "@/components/sections/Stats";
+import ExploreCategories from "@/components/sections/ExploreCategories";
+import FeaturedCategories from "@/components/sections/FeaturedCategories";
+import PackageSlider from "@/components/ui/PackageSlider";
+import HimalayanCard from "@/components/ui/HimalayanCard";
+import DestCard from "@/components/ui/DestCard";
+import SectionHeader from "@/components/ui/SectionHeader";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
+import Testimonials from "@/components/sections/Testimonials";
+import CTABanner from "@/components/sections/CTABanner";
+import FAQ from "@/components/sections/FAQ";
+import {
+  twoNightPackages,
+  weekendEscapes,
+  sunriseTreks,
+} from "@/data/packages";
+import {
+  getPackagesWithOverrides,
+  getToursWithOverrides,
+  getHimalayanWithOverrides,
+} from "@/lib/treks/overrides";
+import {
+  getDestinationsWithOverrides,
+  getBlogPostsWithOverrides,
+} from "@/lib/images/content";
+import { getResolvedImageUrl } from "@/lib/images/overrides";
+import { SITE_IMAGE_DEFAULTS } from "@/lib/images/catalog";
+import { getBlogPostHref } from "@/lib/trips/links";
+
+const [
+  heroImage,
+  ctaImage,
+  twoNights,
+  weekend,
+  sunrise,
+  tours,
+  himalayan,
+  destinations,
+  blogPosts,
+] = await Promise.all([
+  getResolvedImageUrl("site:hero", SITE_IMAGE_DEFAULTS.hero),
+  getResolvedImageUrl("site:cta-banner", SITE_IMAGE_DEFAULTS.ctaBanner),
+  getPackagesWithOverrides(twoNightPackages),
+  getPackagesWithOverrides(weekendEscapes),
+  getPackagesWithOverrides(sunriseTreks),
+  getToursWithOverrides(),
+  getHimalayanWithOverrides(),
+  getDestinationsWithOverrides(),
+  getBlogPostsWithOverrides(),
+]);
+---
+
+<Layout>
+  <Header client:load />
+  <main>
+    <Hero backgroundImage={heroImage} />
+    <Stats />
+    <ExploreCategories />
+    <FeaturedCategories
+      client:load
+      twoNightPackages={twoNights}
+      weekendEscapes={weekend}
+      sunriseTreks={sunrise}
+    />
+
+    <section id="tours" class="scroll-mt-20 bg-surface py-16 md:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-8 md:mb-10">
+          <SectionHeader
+            eyebrow="Explore tours"
+            title="Weekend getaways worth the drive"
+            subtitle="Curated trips from Bangalore to South India's favourite destinations."
+          />
+        </div>
+        <PackageSlider client:load items={tours} ariaLabel="Weekend tours" />
+      </div>
+    </section>
+
+    <section id="himalayan" class="bg-white py-16 md:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+          <SectionHeader
+            eyebrow="High altitude"
+            title="Himalayan Treks"
+            subtitle="Step beyond the Western Ghats. Epic multi-day expeditions in the Himalayas."
+          />
+        </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {himalayan.map((trek) => (
+            <HimalayanCard trek={trek} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="destinations" class="bg-surface py-16 md:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+          <SectionHeader
+            eyebrow="Explore by region"
+            title="Popular Destinations"
+            subtitle="Discover adventures across South India's most iconic landscapes."
+          />
+        </div>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {destinations.map((dest) => (
+            <DestCard dest={dest} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <WhyChooseUs />
+    <Testimonials />
+    <CTABanner backgroundImage={ctaImage} />
+
+    <section id="blog" class="scroll-mt-20 bg-surface py-16 md:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+          <SectionHeader
+            eyebrow="Stories & guides"
+            title="Travel Guides & Inspiration"
+            subtitle="Tips, guides, and travel stories from the trails."
+          />
+        </div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {blogPosts.map((post) => (
+            <a
+              href={getBlogPostHref(post.id)}
+              class="group block overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:shadow-xl"
+            >
+              <div class="relative aspect-[16/10] overflow-hidden bg-surface">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  loading="lazy"
+                  decoding="async"
+                  class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div class="absolute left-3 top-3 rounded-full bg-cta px-2.5 py-1 text-xs font-semibold text-white">
+                  {post.category}
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="text-sm font-bold leading-snug text-brand-text transition-colors group-hover:text-cta">
+                  {post.title}
+                </h3>
+                <p class="mt-1.5 line-clamp-2 text-xs leading-relaxed text-brand-muted">
+                  {post.excerpt}
+                </p>
+                <p class="mt-3 flex items-center gap-1 text-xs font-semibold text-cta">
+                  Read more <span>→</span>
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <FAQ client:load />
+  </main>
+  <Footer />
+</Layout>

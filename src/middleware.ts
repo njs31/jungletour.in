@@ -1,39 +1,31 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { defineMiddleware } from "astro:middleware";
+import { getEnv } from "@/lib/env";
 
 /** Maintenance is ON by default. Set SITE_MAINTENANCE=false to launch the full site. */
 function isMaintenanceEnabled() {
-  return process.env.SITE_MAINTENANCE !== "false";
+  return getEnv("SITE_MAINTENANCE") !== "false";
 }
 
 function isAllowedDuringMaintenance(pathname: string) {
   if (pathname.startsWith("/admin")) return true;
   if (pathname.startsWith("/api/admin")) return true;
   if (pathname === "/under-deployment") return true;
-  if (pathname.startsWith("/_next")) return true;
-  if (pathname === "/icon.png" || pathname === "/apple-icon.png") return true;
+  if (/^\/_astro\//.test(pathname)) return true;
+  if (/^\/favicon\.ico$/.test(pathname)) return true;
+  if (/\.(svg|png|jpg|jpeg|gif|webp|ico)$/.test(pathname)) return true;
   return false;
 }
 
-export function middleware(request: NextRequest) {
+export const onRequest = defineMiddleware((context, next) => {
   if (!isMaintenanceEnabled()) {
-    return NextResponse.next();
+    return next();
   }
 
-  const { pathname } = request.nextUrl;
+  const { pathname } = context.url;
 
   if (isAllowedDuringMaintenance(pathname)) {
-    return NextResponse.next();
+    return next();
   }
 
-  const url = request.nextUrl.clone();
-  url.pathname = "/under-deployment";
-  url.search = "";
-
-  return NextResponse.redirect(url);
-}
-
-export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
-  ],
-};
+  return context.redirect("/under-deployment");
+});

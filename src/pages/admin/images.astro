@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { isAdminAuthenticatedCookies } from "@/lib/admin-auth";
+import { listResolvedImageSlots } from "@/lib/images/overrides";
+import AdminShell from "@/components/admin/AdminShell";
+import AdminImagesManager from "@/components/admin/AdminImagesManager";
+
+if (!isAdminAuthenticatedCookies(Astro.cookies)) {
+  return Astro.redirect("/admin/login");
+}
+
+const slots = await listResolvedImageSlots();
+---
+
+<Layout title="Image Library | Jungle Tours & Treks" noIndex={true}>
+  <AdminShell
+    eyebrow="Media"
+    title="Image library"
+    backHref="/admin"
+    backLabel="Dashboard"
+    showSiteLink={false}
+  >
+    <AdminImagesManager client:load initialSlots={slots} />
+  </AdminShell>
+</Layout>

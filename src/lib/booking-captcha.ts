@@ -1,9 +1,10 @@
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
+import { getEnv } from "@/lib/env";
 
 function getCaptchaSecret() {
   return (
-    process.env.BOOKING_CAPTCHA_SECRET ??
-    process.env.ADMIN_SESSION_SECRET ??
+    getEnv("BOOKING_CAPTCHA_SECRET") ??
+    getEnv("ADMIN_SESSION_SECRET") ??
     "jtt-dev-booking-captcha"
   );
 }

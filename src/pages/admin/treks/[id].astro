@@ -1,0 +1,32 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { isAdminAuthenticatedCookies } from "@/lib/admin-auth";
+import { getAdminTrekFormData } from "@/lib/treks/overrides";
+import TrekEditForm from "@/components/admin/TrekEditForm";
+import AdminShell from "@/components/admin/AdminShell";
+
+if (!isAdminAuthenticatedCookies(Astro.cookies)) {
+  return Astro.redirect("/admin/login");
+}
+
+const { id } = Astro.params;
+const trek = id ? await getAdminTrekFormData(id) : null;
+
+if (!trek) {
+  return Astro.redirect("/admin");
+}
+---
+
+<Layout title={`Edit ${trek.title} | Jungle Tours & Treks`} noIndex={true}>
+  <AdminShell
+    eyebrow="Edit trip"
+    title={trek.title}
+    backHref="/admin"
+    backLabel="Dashboard"
+    showSiteLink={false}
+  >
+    <div class="rounded-2xl border border-brand-border bg-white p-4 shadow-sm sm:p-6 md:p-8">
+      <TrekEditForm client:load initial={trek} />
+    </div>
+  </AdminShell>
+</Layout>

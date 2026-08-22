@@ -1,3 +1,4 @@
+import { getEnv } from "@/lib/env";
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -106,7 +107,7 @@ export async function upsertImageOverride(input: {
     updated_at: new Date().toISOString(),
   };
 
-  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (getEnv("SUPABASE_SERVICE_ROLE_KEY")) {
     try {
       const admin = createAdminClient();
       const { data, error } = await admin
@@ -126,7 +127,7 @@ export async function upsertImageOverride(input: {
 }
 
 export async function removeImageOverride(imageKey: string) {
-  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (getEnv("SUPABASE_SERVICE_ROLE_KEY")) {
     try {
       const admin = createAdminClient();
       const { error } = await admin

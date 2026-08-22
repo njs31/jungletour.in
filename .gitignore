@@ -84,3 +84,8 @@ service-account*.json
 # Optional local overrides
 *.local
 .data/
+
+# Astro
+/.astro/
+/dist/
+/.wrangler/
